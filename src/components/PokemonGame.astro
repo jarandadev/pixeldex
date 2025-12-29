@@ -81,7 +81,7 @@
                         </div>
 
                         <!-- Shiny Star -->
-                        <div id="shiny-indicator" class="hidden absolute top-2 right-2 z-30">
+                        <div id="shiny-indicator" class=" absolute top-2 right-2 z-30">
                              <svg class="w-8 h-8 text-yellow-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                         </div>
                     </div>
@@ -674,16 +674,28 @@
         }
     }
 
+
     function renderAutocomplete() {
         els.ul.innerHTML = '';
         state.currentMatches.forEach((match, index) => {
             const li = document.createElement('li');
             const isSelected = index === state.selectedIndex;
             // Retro style matching
-            li.className = `px-4 py-2 cursor-pointer font-mono text-xs border-b border-[#5a7a57] last:border-0 ${
+            li.className = `px-4 py-2 cursor-pointer font-mono text-xs border-b border-[#5a7a57] last:border-0 flex items-center justify-between ${
                 isSelected ? 'bg-[#5a7a57] text-[#232323]' : 'text-[#232323] hover:bg-[#8bac87]'
             }`;
-            li.textContent = capitalize(match);
+            
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = capitalize(match);
+            
+            const spriteImg = document.createElement('img');
+            spriteImg.className = 'w-8 h-8 image-rendering-pixelated';
+            spriteImg.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getPokemonIdFromName(match)}.png`;
+            spriteImg.alt = match;
+            
+            li.appendChild(nameSpan);
+            li.appendChild(spriteImg);
+            
             li.addEventListener('click', (e) => {
                 e.stopPropagation();
                 selectPokemon(match);
@@ -693,6 +705,11 @@
         if (state.selectedIndex >= 0) {
             els.ul.children[state.selectedIndex]?.scrollIntoView({ block: 'nearest' });
         }
+    }
+    
+    function getPokemonIdFromName(name) {
+        const index = state.pokemonList.indexOf(name);
+        return index >= 0 ? index + 1 : 1;
     }
 
     function handleKeydown(e) {
