@@ -4,7 +4,13 @@ import PokemonGame from '../components/PokemonGame.astro';
 ---
 
 <Layout>
-	<main class="min-h-screen w-full bg-[#202124] flex items-center justify-center p-4 relative overflow-hidden font-mono">
-		<PokemonGame />
+	<main class="min-h-screen w-full bg-[#202124] flex flex-col items-center justify-center overflow-hidden font-mono">
+		<div class="p-2">
+			<PokemonGame />
+		</div>
+		<!-- Branding Footer -->
+		<div class="mt-6 mb-4 text-white text-xs text-center">
+			MADE BY <a href="#" class="underline hover:text-red-500">JABDEV</a>
+		</div>
 	</main>
 </Layout>

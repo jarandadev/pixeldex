@@ -5,31 +5,36 @@
     <!-- Pokedex Main Wrapper (Canvas for Drop Shadow to unify shape) -->
     <div class="relative w-full max-w-[420px] filter drop-shadow-2xl">
         
-        <!-- Top Head (Absolute) -->
-        <!-- Adjusted width/position to align perfectly with the main body below -->
-        <div class="absolute -top-[50px] left-0 right-0 h-[80px] bg-[#dc0a2d] rounded-t-2xl border-t-[4px] border-l-[4px] border-r-[4px] border-[#89061c] z-0 flex items-center px-6 clip-path-polygon">
-           <!-- Blend fix -->
-           <div class="absolute bottom-[-4px] left-0 w-full h-4 bg-[#dc0a2d] z-10"></div>
-        </div>
-
-        <!-- Main Body Chassis -->
-        <div class="relative bg-[#dc0a2d] rounded-b-3xl border-b-[8px] border-l-[4px] border-r-[4px] border-[#89061c] pt-2 pb-8 px-6 z-10 flex flex-col gap-6">
+        <!-- Main Body Chassis (Unified) -->
+        <div class="relative bg-[#dc0a2d] rounded-3xl border-[4px] border-[#89061c] border-b-[8px] pt-10 pb-8 px-6 flex flex-col gap-6">
 
             <!-- Lens Header Section -->
-            <div class="relative w-full flex items-start gap-8 -mt-6 mb-2 z-20">
+            <div class="relative w-full flex items-start gap-6 -mt-4 mb-2 z-20">
                 <!-- Main Blue Lens -->
                 <div class="relative w-16 h-16 rounded-full bg-blue-500 border-[4px] border-white shadow-[0px_2px_4px_rgba(0,0,0,0.3)] overflow-hidden">
-                    <div class="absolute top-1 left-2 w-4 h-4 bg-white opacity-40 rounded-full blur-[2px]"></div>
-                    <div class="absolute inset-0 rounded-full shadow-[inset_-3px_-3px_10px_rgba(0,0,0,0.5)]"></div>
+                    <div class="absolute top-1 left-2.5 w-4 h-4 bg-white rounded-full blur-[1px] z-10"></div>
+                    <div class="absolute top-5 left-1.5 w-2 h-2 bg-white rounded-full blur-[1px] z-10"></div>
+                    <div class="absolute top-[50%] left-[50%] w-8 h-8 bg-blue-700 rounded-full blur-[1px] -translate-x-1/2 -translate-y-1/2"></div>
+                    <div class="absolute inset-0 rounded-full shadow-[inset_-3px_-3px_10px_rgba(0,0,0,0.2)]"></div>
                 </div>
 
                 <!-- Small LEDs -->
                 <div class="flex gap-2 mt-2 mr-2">
-                    <div class="w-4 h-4 rounded-full bg-red-500 border border-red-900 shadow-inner"></div>
-                    <div class="w-4 h-4 rounded-full bg-yellow-400 border border-yellow-900 shadow-inner"></div>
-                    <div class="w-4 h-4 rounded-full bg-green-500 border border-green-900 shadow-inner"></div>
+                    <div class="relative w-4 h-4 rounded-full bg-red-500 border border-red-900 shadow-inner">
+                        <div class="absolute top-0.5 left-0.5 w-1 h-1 bg-white rounded-full blur-[1px] z-10"></div>
+                        <div class="absolute top-[50%] left-[50%] w-2 h-2 bg-red-700 rounded-full blur-[1px] -translate-x-1/2 -translate-y-1/2"></div>
+                    </div>
+                    <div class="relative w-4 h-4 rounded-full bg-yellow-500 border border-yellow-900 shadow-inner">
+                        <div class="absolute top-0.5 left-0.5 w-1 h-1 bg-white rounded-full blur-[1px] z-10"></div>
+                        <div class="absolute top-[50%] left-[50%] w-2 h-2 bg-yellow-700 rounded-full blur-[1px] -translate-x-1/2 -translate-y-1/2"></div>
+                    </div>
+                    <div class="relative w-4 h-4 rounded-full bg-green-500 border border-green-900 shadow-inner">
+                        <div class="absolute top-0.5 left-0.5 w-1 h-1 bg-white rounded-full blur-[1px] z-10"></div>
+                        <div class="absolute top-[50%] left-[50%] w-2 h-2 bg-green-700 rounded-full blur-[1px] -translate-x-1/2 -translate-y-1/2"></div>
+                    </div>
                 </div>
             </div>
+
 
             <!-- Screen Container (Bezel) -->
             <div class="bg-[#dedede] px-8 pt-3 pb-2 rounded rounded-bl-[40px] border-4 border-[#89061c] shadow-[inset_0_0_15px_rgba(0,0,0,0.1)]">
@@ -46,8 +51,8 @@
                     <!-- Stats Line -->
                     <div class="w-full flex justify-between items-center px-1 mb-1 pb-1">
                         <div class="flex flex-col leading-none">
-                             <span class="text-[10px] text-[#4af626] font-mono tracking-wider opacity-70">STREAK</span>
-                             <span id="current-streak" class="font-mono text-center text-[#4af626] text-lg">0</span>
+                             <span class="text-[10px] text-green-500 font-mono tracking-wider opacity-70">STREAK</span>
+                             <span id="current-streak" class="font-mono text-center text-green-500 text-lg">0</span>
                         </div>
                         <!-- Reveal Pokemon Name (Hidden by default) -->
                         <div id="reveal-name" class="hidden flex-col items-center leading-none max-w-[140px]">
@@ -55,8 +60,8 @@
                              <span id="reveal-pokemon" class="font-mono text-center text-sm font-bold uppercase truncate w-full"></span>
                         </div>
                         <div class="flex flex-col items-end leading-none">
-                             <span class="text-[10px] text-yellow-400 font-mono tracking-wider opacity-70">RECORD</span>
-                             <span id="record-streak" class="font-mono text-center text-yellow-400 w-full text-lg">0</span>
+                             <span class="text-[10px] text-yellow-500 font-mono tracking-wider opacity-70">RECORD</span>
+                             <span id="record-streak" class="font-mono text-center text-yellow-500 w-full text-lg">0</span>
                         </div>
                     </div>
 
@@ -77,7 +82,7 @@
 
                         <!-- Shiny Star -->
                         <div id="shiny-indicator" class="hidden absolute top-2 right-2 z-30">
-                             <svg class="w-8 h-8 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                             <svg class="w-8 h-8 text-yellow-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                         </div>
                     </div>
                 </div>
@@ -152,33 +157,33 @@
                     
                 </div>
 
-                <!-- RIGHT SECTION: D-Pad -->
-                <div class="relative w-[90px] h-[90px] shrink-0">
+<!-- RIGHT SECTION: D-Pad -->
+                <div class="relative w-[60px] h-[60px] shrink-0">
                     <!-- Horizontal bar -->
-                    <div class="absolute top-[30px] left-0 w-[90px] h-[30px] bg-[#333] rounded border-b-[3px] border-black"></div>
+                    <div class="absolute top-[20px] left-[3px] w-[54px] h-[20px] bg-[#333] rounded border-b-[2px] border-black"></div>
                     <!-- Vertical bar -->
-                    <div class="absolute top-0 left-[30px] w-[30px] h-[90px] bg-[#333] rounded border-b-[3px] border-black"></div>
+                    <div class="absolute top-[3px] left-[20px] w-[20px] h-[54px] bg-[#333] rounded border-b-[2px] border-black"></div>
                     
-                    <!-- Arrows -->
+                    <!-- Arrows (triángulos equiláteros) -->
                     <!-- Up Arrow -->
-                    <svg class="absolute top-[8px] left-[37px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M7 14l5-5 5 5H7z"/>
+                    <svg class="absolute top-[7px] left-[25px] w-[10px] h-[10px] text-[#1a1a1a] opacity-50" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 4l10 17H2z"/>
                     </svg>
                     <!-- Down Arrow -->
-                    <svg class="absolute bottom-[8px] left-[37px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M7 10l5 5 5-5H7z"/>
+                    <svg class="absolute bottom-[7px] left-[25px] w-[10px] h-[10px] text-[#1a1a1a] opacity-50" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 20L2 3h20z"/>
                     </svg>
                     <!-- Left Arrow -->
-                    <svg class="absolute top-[37px] left-[8px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M14 7l-5 5 5 5V7z"/>
+                    <svg class="absolute top-[25px] left-[7px] w-[10px] h-[10px] text-[#1a1a1a] opacity-50" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4 12l17-10v20z"/>
                     </svg>
                     <!-- Right Arrow -->
-                    <svg class="absolute top-[37px] right-[8px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M10 17l5-5-5-5v10z"/>
+                    <svg class="absolute top-[25px] right-[7px] w-[10px] h-[10px] text-[#1a1a1a] opacity-50" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 12L3 2v20z"/>
                     </svg>
                     
                     <!-- Center dent -->
-                    <div class="absolute top-[35px] left-[35px] w-[20px] h-[20px] bg-[#1a1a1a] rounded-full opacity-50"></div>
+                    <div class="absolute top-[26px] left-[26px] w-[8px] h-[8px] bg-[#1a1a1a] rounded-full opacity-50"></div>
                 </div>
 
             </div>
@@ -186,11 +191,7 @@
         </div>
 
     </div>
-    
-    <!-- Branding Footer -->
-    <div class="my-8 text-white text-xs text-center">
-        MADE BY <a href="#" class="underline hover:text-[#dc0a2d]">JABDEV</a>
-    </div>
+
 
 </div>
 
@@ -200,16 +201,16 @@
     ::-webkit-scrollbar-thumb { background: #5a7a57; border-radius: 3px;}
 
     .cyber-grid {
-        background-size: 40px 40px;
+        background-size: 37.5px 37.5px;
         background-image:
-            linear-gradient(to right, rgba(74, 246, 38, 0.2) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(74, 246, 38, 0.2) 1px, transparent 1px);
-        animation: moveCyberGrid 4s linear infinite;
+            linear-gradient(to right, rgba(0, 0, 0, 0.25) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(0, 0, 0, 0.25) 1px, transparent 1px);
+        animation: moveCyberGrid 8s linear infinite;
     }
 
     @keyframes moveCyberGrid {
         0% { background-position: 0 0; }
-        100% { background-position: 40px 40px; }
+        100% { background-position: 37.5px -37.5px; }
     }
 
     .image-rendering-pixelated { image-rendering: pixelated; }
@@ -455,10 +456,10 @@
         // If all selected = Gold style text
         if (count === 9) {
              span.classList.remove('text-slate-500');
-             span.classList.add('text-yellow-400');
+             span.classList.add('text-yellow-500');
         } else {
              span.classList.add('text-slate-500');
-             span.classList.remove('text-yellow-400');
+             span.classList.remove('text-yellow-500');
         }
     }
 
@@ -775,10 +776,10 @@
     function showRevealName(pokemonName, isSuccess) {
         if (!els.revealName || !els.revealLabel || !els.revealPokemon) return;
         
-        const label = isSuccess ? 'CORRECT!' : 'FAILED!';
-        const colorClass = isSuccess ? 'text-[#4af626]' : 'text-red-500';
+        // const label = isSuccess ? 'CORRECT!' : 'FAILED!';
+        const colorClass = isSuccess ? 'text-green-500' : 'text-red-500';
         
-        els.revealLabel.textContent = label;
+        // els.revealLabel.textContent = label;
         els.revealLabel.className = `text-[10px] font-mono tracking-wider opacity-70 ${colorClass}`;
         els.revealPokemon.textContent = capitalize(pokemonName);
         els.revealPokemon.className = `font-mono text-center text-md font-bold uppercase truncate w-full ${colorClass}`;
