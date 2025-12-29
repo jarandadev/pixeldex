@@ -4,19 +4,7 @@ import PokemonGame from '../components/PokemonGame.astro';
 ---
 
 <Layout>
-	<main class="min-h-screen w-full bg-slate-950 flex flex-col items-center justify-center p-4 relative overflow-hidden font-mono">
-		<!-- Retro Scanline Effect (Optional, kept simple for now) -->
-		<div class="absolute inset-0 pointer-events-none z-0 opacity-5 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]"></div>
-
-		<div class="relative z-10 w-full max-w-4xl flex flex-col items-center gap-6">
-			<header class="text-center space-y-4 mb-4">
-				<h1 class="text-5xl md:text-7xl font-bold text-white drop-shadow-[4px_4px_0px_#2563EB] tracking-tighter">
-					PIXEL<span class="text-blue-500">DEX</span>
-				</h1>
-				<p class="text-slate-400 text-lg tracking-widest uppercase">Desafía tu conocimiento Pokémon</p>
-			</header>
-
-			<PokemonGame />
-		</div>
+	<main class="h-full w-full bg-slate-950 flex flex-col items-center justify-center p-4 relative overflow-hidden font-mono">
+		<PokemonGame />
 	</main>
 </Layout>

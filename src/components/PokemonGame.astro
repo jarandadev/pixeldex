@@ -79,102 +79,90 @@
             </div>
 
             <!-- Controls Deck -->
-            <div class="flex flex-col gap-4">
+            <div class="flex gap-4 items-center justify-between">
                 
-                <!-- Main Controls: D-Pad + Screen Inputs -->
-                <div class="flex gap-4 items-center">
+                <!-- LEFT SECTION: Gen + Shiny Buttons (Stacked) -->
+                <div class="flex flex-col gap-3 shrink-0">
                     
-                    <!-- D-Pad -->
-                    <div class="relative w-[90px] h-[90px] shrink-0">
-                        <!-- Horizontal bar -->
-                        <div class="absolute top-[30px] left-0 w-[90px] h-[30px] bg-[#333] rounded border-b-[3px] border-black"></div>
-                        <!-- Vertical bar -->
-                        <div class="absolute top-0 left-[30px] w-[30px] h-[90px] bg-[#333] rounded border-b-[3px] border-black"></div>
+                    <!-- Gen Button (D-Pad Style) -->
+                    <div class="relative" id="gen-dropdown-container">
+                        <button id="gen-dropdown-btn" class="w-12 h-12 bg-[#333] rounded-full border-b-[3px] border-black flex items-center justify-center active:border-0 active:translate-y-1 transition-all">
+                            <span class="font-mono text-[12px] font-bold text-white">GEN</span>
+                        </button>
                         
-                        <!-- Arrows -->
-                        <!-- Up Arrow -->
-                        <svg class="absolute top-[8px] left-[37px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M7 14l5-5 5 5H7z"/>
-                        </svg>
-                        <!-- Down Arrow -->
-                        <svg class="absolute bottom-[8px] left-[37px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M7 10l5 5 5-5H7z"/>
-                        </svg>
-                        <!-- Left Arrow -->
-                        <svg class="absolute top-[37px] left-[8px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M14 7l-5 5 5 5V7z"/>
-                        </svg>
-                        <!-- Right Arrow -->
-                        <svg class="absolute top-[37px] right-[8px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M10 17l5-5-5-5v10z"/>
-                        </svg>
-                        
-                        <!-- Center dent -->
-                        <div class="absolute top-[35px] left-[35px] w-[20px] h-[20px] bg-[#1a1a1a] rounded-full opacity-50"></div>
+                        <!-- Dropdown -->
+                        <div id="gen-dropdown-menu" class="absolute bottom-full left-0 mb-3 w-40 bg-[#98c993] border-4 border-[#333] p-1 hidden shadow-2xl z-50 rounded">
+                            <div class="max-h-40 overflow-y-auto p-1 space-y-1">
+                                <!-- Creating labels here for base structure, JS can append or use these -->
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Input + Submit -->
-                    <div class="flex-1 flex flex-col gap-2">
-                         <div class="relative w-full group">
-                            <input 
-                                type="text" 
-                                id="guess-input" 
-                                class="w-full bg-[#98c993] text-[#232323] px-3 py-2 font-mono text-sm uppercase placeholder-[#5a7a57] border-4 border-[#5a5a5a] shadow-inner rounded outline-none focus:bg-[#aadda5] transition-colors tracking-wide"
-                                placeholder="NOMBRE..." 
-                                autocomplete="off"
-                            >
-                            <ul id="autocomplete-list" class="absolute left-0 right-0 top-full mt-1 bg-[#98c993] border-4 border-[#5a5a5a] max-h-32 overflow-y-auto hidden z-50 shadow-xl rounded font-mono text-[#232323]"></ul>
-                        </div>
-                        <button id="submit-btn" class="self-end bg-[#333] w-24 py-2 rounded text-white font-mono text-[10px] border-b-4 border-black shadow active:border-0 active:translate-y-1 hover:bg-[#444] transition-all">
-                            CONFIRMAR
-                        </button>
-                    </div>
+                    <!-- Shiny Button (D-Pad Style) -->
+                    <button id="shiny-toggle" class="w-12 h-12 bg-[#333] rounded-full border-b-[3px] border-black flex items-center justify-center active:border-0 active:translate-y-1 transition-all group">
+                        <!-- Star Icon -->
+                        <svg id="shiny-icon" class="w-5 h-5 text-slate-400 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </button>
+                    
                 </div>
 
-                <!-- Bottom System Buttons -->
-                <div class="flex justify-between items-center mt-2 px-1">
+                <!-- CENTER SECTION: Skip + Submit + Input (Largest, Centered) -->
+                <div class="flex-1 flex flex-col gap-2 max-w-[280px]">
                     
-                    <!-- Skip & Tries Group -->
-                    <div class="flex items-center gap-4">
-                         <div class="px-3 py-1 bg-[#98c993] border-2 border-[#5a5a5a] rounded-lg shadow-inner">
-                            <span id="guesses-text" class="text-[#232323] font-mono text-[10px] font-bold">INTENTOS: 4</span>
-                         </div>
-                         <button id="skip-btn" class="w-10 h-10 bg-blue-500 rounded-full border-b-4 border-blue-800 shadow active:border-0 active:translate-y-1 flex items-center justify-center group hover:bg-blue-400">
-                             <!-- Skip Icon -->
-                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
-                         </button>
+                    <!-- Skip and Submit Buttons Row -->
+                    <div class="flex gap-2">
+                        <!-- Skip Button (Red with counter) -->
+                        <button id="skip-btn" class="flex-1 bg-red-600 h-12 rounded text-white font-mono text-[12px] font-bold border-b-[3px] border-red-900 active:border-0 active:translate-y-1 hover:bg-red-500 transition-all flex items-center justify-center">
+                            <span id="skip-btn-text">SKIP (4)</span>
+                        </button>
+                        
+                        <!-- Submit Button (Blue) -->
+                        <button id="submit-btn" class="flex-1 bg-blue-600 h-12 rounded text-white font-mono text-[12px] font-bold border-b-[3px] border-blue-900 active:border-0 active:translate-y-1 hover:bg-blue-500 transition-all">
+                            SUBMIT
+                        </button>
                     </div>
-
-                    <!-- Settings Group (Gens + Shiny) -->
-                    <!-- Uniform Style: Cylindrical gray buttons -->
-                    <div class="flex gap-4">
-                         
-                            <!-- Gen Button -->
-                            <div class="relative flex flex-col items-center gap-1" id="gen-dropdown-container">
-                                <button id="gen-dropdown-btn" class="w-10 h-10 bg-slate-200 rounded-full border-b-4 border-slate-400 shadow active:border-0 active:translate-y-1 flex items-center justify-center transition-all">
-                                    <span class="font-mono text-[10px] font-bold text-slate-500">GEN</span>
-                                </button>
-                            
-
-                             <!-- Dropdown -->
-                             <div id="gen-dropdown-menu" class="absolute bottom-full right-0 mb-3 w-40 bg-[#98c993] border-4 border-[#333] p-1 hidden shadow-2xl z-50 rounded">
-                                 <div class="max-h-40 overflow-y-auto p-1 space-y-1">
-                                     <!-- Creating labels here for base structure, JS can append or use these -->
-                                 </div>
-                             </div>
-                         </div>
-
-                            <!-- Shiny Button -->
-                            <div class="flex flex-col items-center gap-1">
-                                <button id="shiny-toggle" class="w-10 h-10 bg-slate-200 rounded-full border-b-4 border-slate-400 shadow active:border-0 active:translate-y-1 flex items-center justify-center transition-all group">
-                                    <!-- Star Icon -->
-                                    <svg id="shiny-icon" class="w-5 h-5 text-slate-400 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                </button>
-                             <div class="w-8 h-1 bg-yellow-500/0 rounded-full transition-colors" id="shiny-label-line"></div>
-                         </div>
-
+                    
+                    <!-- Input Field -->
+                    <div class="relative w-full group">
+                        <input 
+                            type="text" 
+                            id="guess-input" 
+                            class="w-full bg-[#98c993] text-[#232323] px-3 py-2 font-mono text-sm uppercase placeholder-[#5a7a57] border-4 border-[#5a5a5a] shadow-inner rounded outline-none focus:bg-[#aadda5] transition-colors tracking-wide"
+                            placeholder="NOMBRE..." 
+                            autocomplete="off"
+                        >
+                        <ul id="autocomplete-list" class="absolute uppercase left-0 right-0 top-full mt-1 bg-[#98c993] border-4 border-[#5a5a5a] max-h-32 overflow-y-auto hidden z-50 shadow-xl rounded font-mono text-[#232323]"></ul>
                     </div>
+                    
+                </div>
 
+                <!-- RIGHT SECTION: D-Pad -->
+                <div class="relative w-[90px] h-[90px] shrink-0">
+                    <!-- Horizontal bar -->
+                    <div class="absolute top-[30px] left-0 w-[90px] h-[30px] bg-[#333] rounded border-b-[3px] border-black"></div>
+                    <!-- Vertical bar -->
+                    <div class="absolute top-0 left-[30px] w-[30px] h-[90px] bg-[#333] rounded border-b-[3px] border-black"></div>
+                    
+                    <!-- Arrows -->
+                    <!-- Up Arrow -->
+                    <svg class="absolute top-[8px] left-[37px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M7 14l5-5 5 5H7z"/>
+                    </svg>
+                    <!-- Down Arrow -->
+                    <svg class="absolute bottom-[8px] left-[37px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M7 10l5 5 5-5H7z"/>
+                    </svg>
+                    <!-- Left Arrow -->
+                    <svg class="absolute top-[37px] left-[8px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14 7l-5 5 5 5V7z"/>
+                    </svg>
+                    <!-- Right Arrow -->
+                    <svg class="absolute top-[37px] right-[8px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 17l5-5-5-5v10z"/>
+                    </svg>
+                    
+                    <!-- Center dent -->
+                    <div class="absolute top-[35px] left-[35px] w-[20px] h-[20px] bg-[#1a1a1a] rounded-full opacity-50"></div>
                 </div>
 
             </div>
@@ -267,6 +255,7 @@
         canvas: document.getElementById('game-canvas'),
         input: document.getElementById('guess-input'),
         skipBtn: document.getElementById('skip-btn'),
+        skipBtnText: document.getElementById('skip-btn-text'),
         submitBtn: document.getElementById('submit-btn'),
         streak: document.getElementById('current-streak'),
         record: document.getElementById('record-streak'),
@@ -274,7 +263,6 @@
         ul: document.getElementById('autocomplete-list'),
         feedback: document.getElementById('feedback-overlay'),
         feedbackText: document.getElementById('feedback-text'),
-        guessesText: document.getElementById('guesses-text'),
         genBtn: document.getElementById('gen-dropdown-btn'),
         genMenu: document.getElementById('gen-dropdown-menu'),
         checkboxes: [], 
@@ -531,7 +519,7 @@
 
     function updateGuessesText() {
         const remaining = DIFFICULTY_LEVELS.length - state.currentLevelIndex;
-        if(els.guessesText) els.guessesText.textContent = `INTENTOS: ${remaining}`;
+        if(els.skipBtnText) els.skipBtnText.textContent = `SKIP (${remaining})`;
     }
 
     function handleInput(e) {
