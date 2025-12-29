@@ -1,185 +1,226 @@
 ---
 ---
-<div class="relative flex flex-col items-center w-full max-w-2xl mx-auto p-6">
-    <!-- Scoreboard -->
-    <div class="w-full flex justify-between items-center mb-6 px-4 py-3 bg-slate-800 border-4 border-slate-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
-        <div class="flex flex-col items-center">
-            <span class="text-xs uppercase tracking-wider text-slate-400 font-mono font-bold mb-1">Racha</span>
-            <span id="current-streak" class="text-2xl font-mono text-white">0</span>
+<div class="flex flex-col items-center w-full min-h-screen py-8">
+    
+    <!-- Pokedex Main Wrapper (Canvas for Drop Shadow to unify shape) -->
+    <div class="relative w-full max-w-[420px] filter drop-shadow-2xl">
+        
+        <!-- Top Head (Absolute) -->
+        <!-- Adjusted width/position to align perfectly with the main body below -->
+        <div class="absolute -top-[50px] left-0 right-0 h-[80px] bg-[#dc0a2d] rounded-t-2xl border-t-[4px] border-l-[4px] border-r-[4px] border-[#89061c] z-0 flex items-center px-6 clip-path-polygon">
+           <!-- Blend fix -->
+           <div class="absolute bottom-[-4px] left-0 w-full h-4 bg-[#dc0a2d] z-10"></div>
         </div>
-        <div class="flex flex-col items-center">
-            <span class="text-xs uppercase tracking-wider text-slate-400 font-mono font-bold mb-1">Récord</span>
-            <span id="record-streak" class="text-2xl font-mono text-yellow-500">0</span>
-        </div>
-    </div>
 
-    <!-- Settings Controls -->
-    <div class="w-full flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 z-40">
-        <!-- Region Multi-Selector -->
-        <div class="relative w-full sm:w-auto group" id="gen-dropdown-container">
-            <button id="gen-dropdown-btn" class="w-full sm:w-64 bg-slate-800 text-white font-mono text-sm px-4 py-2 border-4 border-slate-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] flex justify-between items-center hover:bg-slate-700 transition-colors">
-                <span>Generaciones (Todas)</span>
-                <span class="text-slate-400">▼</span>
-            </button>
-            <!-- Dropdown Menu -->
-            <div id="gen-dropdown-menu" class="absolute top-full left-0 w-full sm:w-64 bg-slate-800 border-4 border-slate-900 max-h-60 overflow-y-auto hidden shadow-xl mt-1">
-                <div class="p-2 space-y-1">
-                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
-                        <input type="checkbox" value="gen1" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
-                        <span>Gen 1 (Kanto)</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
-                        <input type="checkbox" value="gen2" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
-                        <span>Gen 2 (Johto)</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
-                        <input type="checkbox" value="gen3" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
-                        <span>Gen 3 (Hoenn)</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
-                        <input type="checkbox" value="gen4" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
-                        <span>Gen 4 (Sinnoh)</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
-                        <input type="checkbox" value="gen5" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
-                        <span>Gen 5 (Unova)</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
-                        <input type="checkbox" value="gen6" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
-                        <span>Gen 6 (Kalos)</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
-                        <input type="checkbox" value="gen7" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
-                        <span>Gen 7 (Alola)</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
-                        <input type="checkbox" value="gen8" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
-                        <span>Gen 8 (Galar)</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
-                        <input type="checkbox" value="gen9" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
-                        <span>Gen 9 (Paldea)</span>
-                    </label>
+        <!-- Main Body Chassis -->
+        <div class="relative bg-[#dc0a2d] rounded-b-3xl border-b-[8px] border-l-[4px] border-r-[4px] border-[#89061c] pt-2 pb-8 px-6 z-10 flex flex-col gap-6">
+
+            <!-- Lens Header Section -->
+            <div class="relative w-full flex items-start justify-between -mt-6 mb-2 z-20">
+                <!-- Main Blue Lens -->
+                <div class="relative w-16 h-16 rounded-full bg-blue-400 border-[4px] border-white shadow-[0px_2px_4px_rgba(0,0,0,0.3)] overflow-hidden">
+                    <div class="absolute top-1 left-2 w-4 h-4 bg-white opacity-40 rounded-full blur-[2px]"></div>
+                    <div class="absolute inset-0 rounded-full shadow-[inset_-3px_-3px_10px_rgba(0,0,0,0.5)]"></div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Shiny Toggle -->
-        <button id="shiny-toggle" class="w-full sm:w-auto flex items-center justify-center gap-3 px-4 py-2 bg-slate-800 border-4 border-slate-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] active:translate-y-1 active:shadow-none transition-all group hover:bg-slate-700">
-            <span class="text-white font-mono text-sm font-bold uppercase">Shiny (50%)</span>
-            <div class="relative w-12 h-6 bg-slate-900 rounded-full border-2 border-slate-600 transition-colors group-[.is-active]:bg-purple-900 group-[.is-active]:border-purple-600">
-                <div class="absolute top-1/2 -translate-y-1/2 left-1 w-4 h-4 bg-slate-400 rounded-full transition-all group-[.is-active]:left-6 group-[.is-active]:bg-purple-400 shadow-sm"></div>
-            </div>
-        </button>
-    </div>
-
-    <!-- Game Area -->
-    <div class="relative group w-full flex justify-center mb-8">
-        <div id="game-card" class="relative bg-slate-200 p-2 border-4 border-slate-900 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] transition-colors duration-300">
-            <!-- Grid Background Container -->
-            <div class="absolute inset-2 z-0 overflow-hidden bg-slate-100">
-                <div class="retro-grid w-full h-full absolute inset-0"></div>
-            </div>
-
-            <canvas id="game-canvas" width="300" height="300" class="relative z-10 image-pixelated"></canvas>
-            
-            <!-- Loading Overlay -->
-            <div id="loading-overlay" class="absolute inset-2 flex items-center justify-center bg-slate-900 z-20">
-                <div class="flex flex-col items-center gap-4">
-                    <div class="w-12 h-12 border-4 border-slate-200 border-t-slate-900 animate-spin"></div>
-                    <span class="text-slate-200 font-mono text-sm uppercase tracking-widest animate-pulse">Cargando...</span>
+                <!-- Small LEDs -->
+                <div class="flex gap-2 mt-2 mr-2">
+                    <div class="w-3 h-3 rounded-full bg-red-500 border border-red-800 shadow-inner"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-400 border border-yellow-700 shadow-inner"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500 border border-green-700 shadow-inner"></div>
                 </div>
             </div>
 
-            <!-- Feedback Overlay (Correct/Wrong) -->
-            <div id="feedback-overlay" class="absolute inset-2 flex items-end justify-center pb-6 z-30 pointer-events-none hidden">
-                <span id="feedback-text" class="text-2xl font-mono font-bold text-white px-4 py-2 bg-slate-900 border-2 border-white shadow-[4px_4px_0px_0px_#000]"></span>
+            <!-- Screen Container (Bezel) -->
+            <div class="bg-[#dedede] p-5 rounded-xl rounded-bl-[40px] border-4 border-[#89061c] shadow-[inset_0_0_15px_rgba(0,0,0,0.1)] relative">
+                
+                <!-- Tiny Red Dots -->
+                <div class="flex justify-center gap-3 mb-2">
+                    <div class="w-2 h-2 bg-red-600 rounded-full shadow-sm"></div>
+                    <div class="w-2 h-2 bg-red-600 rounded-full shadow-sm"></div>
+                </div>
+
+                <!-- The Screen -->
+                <div id="game-card" class="relative bg-[#232323] border-4 border-[#4a4a4a] rounded shadow-inner overflow-hidden flex flex-col p-2 transition-colors duration-300">
+                    
+                    <!-- Stats Line -->
+                    <div class="w-full flex justify-between px-1 mb-1 border-b border-[#444] pb-1">
+                        <div class="flex flex-col leading-none">
+                             <span class="text-[8px] text-[#4af626] font-mono tracking-wider opacity-70">RACHA</span>
+                             <span id="current-streak" class="font-mono text-[#4af626] text-lg">0</span>
+                        </div>
+                        <div class="flex flex-col items-end leading-none">
+                             <span class="text-[8px] text-yellow-400 font-mono tracking-wider opacity-70">RECORD</span>
+                             <span id="record-streak" class="font-mono text-yellow-400 text-lg">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Canvas -->
+                    <div class="relative w-full aspect-square bg-[#98c993] border-2 border-[#5a5a5a] shadow-inner mb-1 overflow-hidden">
+                        <div class="absolute inset-0 z-0 opacity-30 pointer-events-none cyber-grid"></div>
+                        <canvas id="game-canvas" width="300" height="300" class="relative z-10 w-full h-full object-contain image-rendering-pixelated"></canvas>
+                        
+                        <!-- Loading -->
+                        <div id="loading-overlay" class="absolute inset-0 flex items-center justify-center bg-[#232323] z-20">
+                             <span class="text-[#4af626] font-mono text-xs animate-pulse">CARGANDO...</span>
+                        </div>
+
+                        <!-- Feedback (Hidden) -->
+                        <div id="feedback-overlay" class="absolute inset-0 flex items-center justify-center bg-transparent z-30 hidden p-2 text-center">
+                             <span id="feedback-text" class="text-transparent font-mono text-xl md:text-2xl font-bold uppercase"></span>
+                        </div>
+
+                        <!-- Shiny Star -->
+                        <div id="shiny-indicator" class="hidden absolute top-1 right-1 z-30">
+                             <svg class="w-5 h-5 text-yellow-400 drop-shadow-sm animate-bounce" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-            <!-- Shiny Indicator on reveal -->
-            <div id="shiny-indicator" class="hidden absolute top-4 right-4 z-10">
-                <svg class="w-8 h-8 text-yellow-500 drop-shadow-md animate-bounce" fill="currentColor" viewBox="0 0 24 24"> <!-- Bigger shiny star -->
-                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
+
+            <!-- Controls Deck -->
+            <div class="flex flex-col gap-4">
+                
+                <!-- Main Controls: D-Pad + Screen Inputs -->
+                <div class="flex gap-4 items-center">
+                    
+                    <!-- D-Pad -->
+                    <div class="relative w-[90px] h-[90px] shrink-0">
+                        <!-- Horizontal bar -->
+                        <div class="absolute top-[30px] left-0 w-[90px] h-[30px] bg-[#333] rounded border-b-[3px] border-black"></div>
+                        <!-- Vertical bar -->
+                        <div class="absolute top-0 left-[30px] w-[30px] h-[90px] bg-[#333] rounded border-b-[3px] border-black"></div>
+                        
+                        <!-- Arrows -->
+                        <!-- Up Arrow -->
+                        <svg class="absolute top-[8px] left-[37px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7 14l5-5 5 5H7z"/>
+                        </svg>
+                        <!-- Down Arrow -->
+                        <svg class="absolute bottom-[8px] left-[37px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7 10l5 5 5-5H7z"/>
+                        </svg>
+                        <!-- Left Arrow -->
+                        <svg class="absolute top-[37px] left-[8px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14 7l-5 5 5 5V7z"/>
+                        </svg>
+                        <!-- Right Arrow -->
+                        <svg class="absolute top-[37px] right-[8px] w-4 h-4 text-white opacity-70" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M10 17l5-5-5-5v10z"/>
+                        </svg>
+                        
+                        <!-- Center dent -->
+                        <div class="absolute top-[35px] left-[35px] w-[20px] h-[20px] bg-[#1a1a1a] rounded-full opacity-50"></div>
+                    </div>
+
+                    <!-- Input + Submit -->
+                    <div class="flex-1 flex flex-col gap-2">
+                         <div class="relative w-full group">
+                            <input 
+                                type="text" 
+                                id="guess-input" 
+                                class="w-full bg-[#98c993] text-[#232323] px-3 py-2 font-mono text-sm uppercase placeholder-[#5a7a57] border-4 border-[#5a5a5a] shadow-inner rounded outline-none focus:bg-[#aadda5] transition-colors tracking-wide"
+                                placeholder="NOMBRE..." 
+                                autocomplete="off"
+                            >
+                            <ul id="autocomplete-list" class="absolute left-0 right-0 top-full mt-1 bg-[#98c993] border-4 border-[#5a5a5a] max-h-32 overflow-y-auto hidden z-50 shadow-xl rounded font-mono text-[#232323]"></ul>
+                        </div>
+                        <button id="submit-btn" class="self-end bg-[#333] w-24 py-2 rounded text-white font-mono text-[10px] border-b-4 border-black shadow active:border-0 active:translate-y-1 hover:bg-[#444] transition-all">
+                            CONFIRMAR
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bottom System Buttons -->
+                <div class="flex justify-between items-center mt-2 px-1">
+                    
+                    <!-- Skip & Tries Group -->
+                    <div class="flex items-center gap-4">
+                         <div class="px-3 py-1 bg-[#98c993] border-2 border-[#5a5a5a] rounded-lg shadow-inner">
+                            <span id="guesses-text" class="text-[#232323] font-mono text-[10px] font-bold">INTENTOS: 4</span>
+                         </div>
+                         <button id="skip-btn" class="w-10 h-10 bg-blue-500 rounded-full border-b-4 border-blue-800 shadow active:border-0 active:translate-y-1 flex items-center justify-center group hover:bg-blue-400">
+                             <!-- Skip Icon -->
+                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
+                         </button>
+                    </div>
+
+                    <!-- Settings Group (Gens + Shiny) -->
+                    <!-- Uniform Style: Cylindrical gray buttons -->
+                    <div class="flex gap-4">
+                         
+                            <!-- Gen Button -->
+                            <div class="relative flex flex-col items-center gap-1" id="gen-dropdown-container">
+                                <button id="gen-dropdown-btn" class="w-10 h-10 bg-slate-200 rounded-full border-b-4 border-slate-400 shadow active:border-0 active:translate-y-1 flex items-center justify-center transition-all">
+                                    <span class="font-mono text-[10px] font-bold text-slate-500">GEN</span>
+                                </button>
+                            
+
+                             <!-- Dropdown -->
+                             <div id="gen-dropdown-menu" class="absolute bottom-full right-0 mb-3 w-40 bg-[#98c993] border-4 border-[#333] p-1 hidden shadow-2xl z-50 rounded">
+                                 <div class="max-h-40 overflow-y-auto p-1 space-y-1">
+                                     <!-- Creating labels here for base structure, JS can append or use these -->
+                                 </div>
+                             </div>
+                         </div>
+
+                            <!-- Shiny Button -->
+                            <div class="flex flex-col items-center gap-1">
+                                <button id="shiny-toggle" class="w-10 h-10 bg-slate-200 rounded-full border-b-4 border-slate-400 shadow active:border-0 active:translate-y-1 flex items-center justify-center transition-all group">
+                                    <!-- Star Icon -->
+                                    <svg id="shiny-icon" class="w-5 h-5 text-slate-400 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                </button>
+                             <div class="w-8 h-1 bg-yellow-500/0 rounded-full transition-colors" id="shiny-label-line"></div>
+                         </div>
+
+                    </div>
+
+                </div>
+
             </div>
+
         </div>
+
+    </div>
+    
+    <!-- Branding Footer -->
+    <div class="mt-8 text-slate-500 font-mono text-xs text-center opacity-60">
+        PIXELDEX SYSTEM • <a href="#" class="underline hover:text-slate-400">GITHUB</a>
     </div>
 
-    <!-- Controls -->
-    <div class="w-full flex flex-col gap-4">
-        <div class="relative w-full group">
-            <div class="relative flex gap-2">
-                <input 
-                    type="text" 
-                    id="guess-input" 
-                    class="flex-1 bg-slate-800 text-white px-4 py-3 outline-none font-mono text-sm border-4 border-slate-900 placeholder-slate-500 focus:bg-slate-900 transition-colors" 
-                    placeholder="NOMBRE DEL POKÉMON..." 
-                    autocomplete="off"
-                >
-                <button 
-                    id="submit-btn" 
-                    class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold border-4 border-slate-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] active:translate-y-1 active:shadow-none transition-all"
-                >
-                    ADIVINAR
-                </button>
-            </div>
-            
-            <!-- Custom Autocomplete Dropdown -->
-            <ul id="autocomplete-list" class="absolute w-full bottom-full mb-2 bg-slate-800 border-4 border-slate-900 max-h-60 overflow-y-auto z-50 hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
-                <!-- Items injected via JS -->
-            </ul>
-        </div>
-
-        <div class="flex justify-between items-center text-sm font-mono font-bold px-1">
-            <span id="guesses-text" class="text-slate-400">INTENTOS: 4</span>
-            <button 
-                id="skip-btn" 
-                class="text-slate-500 hover:text-slate-300 transition-colors flex items-center gap-2 uppercase"
-            >
-                <span>Saltar >></span>
-            </button>
-        </div>
-    </div>
 </div>
 
 <style>
-    .retro-grid {
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #8bac87; }
+    ::-webkit-scrollbar-thumb { background: #5a7a57; border-radius: 3px;}
+
+    .cyber-grid {
         background-size: 40px 40px;
         background-image:
-            linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-        animation: moveGrid 4s linear infinite;
+            linear-gradient(to right, rgba(74, 246, 38, 0.2) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(74, 246, 38, 0.2) 1px, transparent 1px);
+        animation: moveCyberGrid 4s linear infinite;
     }
 
-    @keyframes moveGrid {
-        0% { transform: translate(0, 0); }
-        100% { transform: translate(-40px, -40px); }
+    @keyframes moveCyberGrid {
+        0% { background-position: 0 0; }
+        100% { background-position: 40px 40px; }
     }
 
-    .image-pixelated {
-        image-rendering: pixelated;
-    }
+    .image-rendering-pixelated { image-rendering: pixelated; }
 
     @keyframes shake {
         0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        75% { transform: translateX(5px); }
+        25% { transform: translateX(-4px); }
+        75% { transform: translateX(4px); }
     }
-    
-    .animate-shake {
-        animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-    }
-    
-    /* Scrollbar Styling for Dropdown */
-    #autocomplete-list::-webkit-scrollbar,
-    #gen-dropdown-menu::-webkit-scrollbar {
-        width: 10px;
-        background: #1e293b;
-    }
-    #autocomplete-list::-webkit-scrollbar-thumb,
-    #gen-dropdown-menu::-webkit-scrollbar-thumb {
-        background: #475569;
-        border: 2px solid #1e293b;
+    .animate-shake { animation: shake 0.3s ease-in-out; }
+
+    /* Button Active States (Applied by JS) */
+    .btn-active-gold {
+        background-color: #422006 !important; /* Dark Brown/Gold bg */
+        border-color: #eab308 !important; /* Yellow-500 */
     }
 </style>
 
@@ -216,8 +257,8 @@
         selectedIndex: -1,
         isRoundActive: true,
         // Settings
-        isShinyMode: false, // user preference (50% chance enabled)
-        currentRoundIsShiny: false, // actual state of current drawing
+        isShinyMode: false, 
+        currentRoundIsShiny: false, 
         selectedGens: new Set(['gen1', 'gen2', 'gen3', 'gen4', 'gen5', 'gen6', 'gen7', 'gen8', 'gen9'])
     };
 
@@ -234,22 +275,76 @@
         feedback: document.getElementById('feedback-overlay'),
         feedbackText: document.getElementById('feedback-text'),
         guessesText: document.getElementById('guesses-text'),
-        // New Controls
         genBtn: document.getElementById('gen-dropdown-btn'),
         genMenu: document.getElementById('gen-dropdown-menu'),
-        checkboxes: document.querySelectorAll('#gen-dropdown-menu input[type="checkbox"]'),
+        checkboxes: [], 
         shinyToggle: document.getElementById('shiny-toggle'),
         shinyIndicator: document.getElementById('shiny-indicator'),
         gameCard: document.getElementById('game-card')
     };
 
     const ctx = els.canvas.getContext('2d');
-
     const normalize = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
     const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
+    function initGenOptions() {
+        // Re-generate the Gen Checklist inside genMenu
+        const container = els.genMenu.querySelector('div');
+        container.innerHTML = ''; 
+        
+        const gens = [
+            { id: 'gen1', label: 'GEN 1 (KANTO)' },
+            { id: 'gen2', label: 'GEN 2 (JOHTO)' },
+            { id: 'gen3', label: 'GEN 3 (HOENN)' },
+            { id: 'gen4', label: 'GEN 4 (SINNOH)' },
+            { id: 'gen5', label: 'GEN 5 (UNOVA)' },
+            { id: 'gen6', label: 'GEN 6 (KALOS)' },
+            { id: 'gen7', label: 'GEN 7 (ALOLA)' },
+            { id: 'gen8', label: 'GEN 8 (GALAR)' },
+            { id: 'gen9', label: 'GEN 9 (PALDEA)' },
+        ];
+
+        gens.forEach(g => {
+            const label = document.createElement('label');
+            label.className = "flex items-center space-x-2 p-2 hover:bg-[#8bac87] cursor-pointer text-[#232323] font-mono text-[10px] border-b border-[#8bac87] last:border-0";
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = g.id;
+            checkbox.checked = state.selectedGens.has(g.id);
+            checkbox.className = "form-checkbox h-3 w-3 text-black rounded-none border-black focus:ring-0 accent-black"; 
+            
+            checkbox.addEventListener('change', (e) => {
+                const val = e.target.value;
+                if (e.target.checked) {
+                    state.selectedGens.add(val);
+                } else {
+                    state.selectedGens.delete(val);
+                }
+                if (state.selectedGens.size === 0) {
+                    e.target.checked = true;
+                    state.selectedGens.add(val);
+                    return; 
+                }
+                updateGenButtonVisuals();
+                state.streak = 0;
+                updateScoreboard();
+                startRound();
+            });
+
+            const span = document.createElement('span');
+            span.textContent = g.label;
+            
+            label.appendChild(checkbox);
+            label.appendChild(span);
+            container.appendChild(label);
+        });
+    }
+
     async function init() {
+        initGenOptions();
         updateScoreboard();
+        updateGenButtonVisuals();
         
         try {
             const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1025');
@@ -267,96 +362,73 @@
         els.input.addEventListener('input', handleInput);
         els.input.addEventListener('keydown', handleKeydown);
 
-        // Close lists from outside
         document.addEventListener('click', (e) => {
             if (e.target !== els.input && e.target !== els.ul) {
                 closeAutocomplete();
             }
-            // Close gen menu if clicked outside container
-            if (!document.getElementById('gen-dropdown-container').contains(e.target)) {
+            if (els.genMenu && !document.getElementById('gen-dropdown-container').contains(e.target)) {
                 els.genMenu.classList.add('hidden');
             }
         });
 
-        // Settings Listeners
         els.genBtn.addEventListener('click', () => {
              els.genMenu.classList.toggle('hidden');
         });
 
-        els.checkboxes.forEach(cb => {
-            cb.addEventListener('change', (e) => {
-                const val = e.target.value;
-                if (e.target.checked) {
-                    state.selectedGens.add(val);
-                } else {
-                    state.selectedGens.delete(val);
-                }
-                
-                // Prevent unselecting all
-                if (state.selectedGens.size === 0) {
-                    e.target.checked = true;
-                    state.selectedGens.add(val);
-                    return; // Don't trigger reset if we reverted
-                }
-                
-                updateGenButtonText();
-
-                // Reset and new round on change
-                state.streak = 0;
-                updateScoreboard();
-                startRound();
-            });
-        });
-
         els.shinyToggle.addEventListener('click', () => {
             state.isShinyMode = !state.isShinyMode;
-            // Toggle visual state
-            if (state.isShinyMode) {
-                els.shinyToggle.classList.add('is-active');
-            } else {
-                els.shinyToggle.classList.remove('is-active');
-            }
-            
-            // Reset and new round on change
+            updateShinyButtonVisuals();
             state.streak = 0;
             updateScoreboard();
             startRound();
         });
     }
     
-    function updateGenButtonText() {
+    function updateGenButtonVisuals() {
         const count = state.selectedGens.size;
-        const text = count === 9 ? 'Generaciones (Todas)' : `Generaciones (${count})`;
-        els.genBtn.querySelector('span').textContent = text;
+        const text = count === 9 ? 'GEN' : `G(${count})`;
+        const span = els.genBtn.querySelector('span');
+        span.textContent = text;
+        
+        // If all selected = Gold style text
+        if (count === 9) {
+             span.classList.remove('text-slate-500');
+             span.classList.add('text-yellow-500');
+        } else {
+             span.classList.add('text-slate-500');
+             span.classList.remove('text-yellow-500');
+        }
+    }
+
+    function updateShinyButtonVisuals() {
+        const icon = document.getElementById('shiny-icon');
+        const line = document.getElementById('shiny-label-line');
+        
+        if (state.isShinyMode) {
+            icon.classList.remove('text-slate-400');
+            icon.classList.add('text-yellow-500'); 
+        } else {
+            icon.classList.add('text-slate-400');
+            icon.classList.remove('text-yellow-500');
+        }
     }
 
     function getRandomPokemonId() {
-        // Collect all potential IDs
         let ranges = [];
         state.selectedGens.forEach(gen => {
-            if (GEN_RANGES[gen]) {
-                ranges.push(GEN_RANGES[gen]);
-            }
+            if (GEN_RANGES[gen]) ranges.push(GEN_RANGES[gen]);
         });
-        
-        if (ranges.length === 0) {
-            // Fallback (should be prevented by UI but just in case)
-            ranges.push(GEN_RANGES['gen1']);
-        }
+        if (ranges.length === 0) ranges.push(GEN_RANGES['gen1']);
 
-        // Calculate total weight
         const total = ranges.reduce((acc, r) => acc + (r.max - r.min + 1), 0);
         let random = Math.floor(Math.random() * total);
         
-        // Find which range allows this random index
         for (const r of ranges) {
             const span = r.max - r.min + 1;
-            if (random < span) {
-                return r.min + random;
-            }
+            if (random < span) return r.min + random;
             random -= span;
         }
-        return 1; // Fallback
+        return 1; 
     }
 
     async function startRound() {
@@ -374,11 +446,7 @@
         els.feedback.classList.add('hidden');
         if(els.shinyIndicator) els.shinyIndicator.classList.add('hidden');
 
-        // Reset Card Styles
-        if (els.gameCard) {
-            els.gameCard.classList.remove('border-green-500', 'border-red-500');
-            els.gameCard.classList.add('border-slate-900');
-        }
+        // Card colors remain unchanged
         
         state.currentLevelIndex = 0;
         updateGuessesText();
@@ -389,35 +457,20 @@
             const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
             const data = await res.json();
 
-            // Handle Shiny Chance
-            // If mode enabled: 50/50. Else: 0%
             let isShinyRound = false;
-            
             if (state.isShinyMode) {
-                const roll = Math.random();
-                isShinyRound = roll < 0.5;
-                console.log(`[PixelDex] Shiny Roll: ${roll.toFixed(4)} (< 0.5) -> ${isShinyRound ? 'SHINY' : 'Normal'}`);
-            } else {
-                console.log('[PixelDex] Shiny Mode: OFF');
+                isShinyRound = Math.random() < 0.5;
             }
             state.currentRoundIsShiny = isShinyRound;
 
             let imgUrl = data.sprites.other['official-artwork'].front_default || data.sprites.front_default;
             if (state.currentRoundIsShiny) {
-                // Try to get shiny art, check if exists
                 const shinyUrl = data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny;
-                if (shinyUrl) {
-                    imgUrl = shinyUrl;
-                } else {
-                    console.warn('[PixelDex] Shiny sprite missing for this Pokemon, reverting to normal.');
-                    state.currentRoundIsShiny = false;
-                }
+                if (shinyUrl) imgUrl = shinyUrl;
+                else state.currentRoundIsShiny = false;
             }
 
-            state.currentPokemon = {
-                name: data.name,
-                imgUrl: imgUrl
-            };
+            state.currentPokemon = { name: data.name, imgUrl: imgUrl };
 
             const img = new Image();
             img.crossOrigin = "Anonymous";
@@ -447,12 +500,9 @@
 
     function renderLevel() {
         if (!state.currentImg) return;
-        
         const diff = DIFFICULTY_LEVELS[state.currentLevelIndex];
         const size = 300;
-        
         ctx.imageSmoothingEnabled = false;
-
         const w = diff.resolution;
         const h = diff.resolution;
         
@@ -460,7 +510,6 @@
         offCanvas.width = w;
         offCanvas.height = h;
         const offCtx = offCanvas.getContext('2d');
-        
         offCtx.clearRect(0, 0, w, h);
         offCtx.drawImage(state.currentImg, 0, 0, w, h);
         
@@ -470,7 +519,6 @@
 
     function handleSkip() {
         if (!state.isRoundActive || state.isLoading) return;
-
         if (state.currentLevelIndex < DIFFICULTY_LEVELS.length - 1) {
             state.currentLevelIndex++;
             renderLevel();
@@ -478,22 +526,21 @@
         } else {
             handleFailure();
         }
+        els.input.focus();
     }
 
     function updateGuessesText() {
         const remaining = DIFFICULTY_LEVELS.length - state.currentLevelIndex;
-        if(els.guessesText) els.guessesText.textContent = `Intentos restantes: ${remaining}`;
+        if(els.guessesText) els.guessesText.textContent = `INTENTOS: ${remaining}`;
     }
 
     function handleInput(e) {
         if (!state.isRoundActive) return;
         const val = e.target.value;
-        
         if (!val || val.length < 2) {
             closeAutocomplete();
             return;
         }
-
         const normVal = normalize(val);
         state.currentMatches = state.pokemonList
             .filter(name => normalize(name).includes(normVal))
@@ -513,30 +560,24 @@
         state.currentMatches.forEach((match, index) => {
             const li = document.createElement('li');
             const isSelected = index === state.selectedIndex;
-            
-            li.className = `px-4 py-2 cursor-pointer font-mono text-sm border-b border-slate-700 last:border-0 ${
-                isSelected ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+            // Retro style matching
+            li.className = `px-4 py-2 cursor-pointer font-mono text-xs border-b border-[#5a7a57] last:border-0 ${
+                isSelected ? 'bg-[#5a7a57] text-[#232323]' : 'text-[#232323] hover:bg-[#8bac87]'
             }`;
             li.textContent = capitalize(match);
-            
             li.addEventListener('click', (e) => {
                 e.stopPropagation();
                 selectPokemon(match);
             });
             els.ul.appendChild(li);
         });
-        
         if (state.selectedIndex >= 0) {
-            const selectedEl = els.ul.children[state.selectedIndex];
-            if (selectedEl) {
-                selectedEl.scrollIntoView({ block: 'nearest' });
-            }
+            els.ul.children[state.selectedIndex]?.scrollIntoView({ block: 'nearest' });
         }
     }
 
     function handleKeydown(e) {
         if (!state.isRoundActive) return;
-
         if (e.key === 'ArrowDown') {
             e.preventDefault();
             if (state.currentMatches.length > 0) {
@@ -579,17 +620,14 @@
         if (!state.isRoundActive) return;
         const guess = els.input.value;
         if (!guess) return;
-
         const normalizedGuess = normalize(guess);
         const isValid = state.pokemonList.some(p => normalize(p) === normalizedGuess);
-        
         if (!isValid) {
-            els.input.classList.add('animate-shake');
-            setTimeout(() => els.input.classList.remove('animate-shake'), 500);
+            els.input.parentElement.classList.add('animate-shake'); 
+            setTimeout(() => els.input.parentElement.classList.remove('animate-shake'), 300);
             return;
         }
         const normalizedName = normalize(state.currentPokemon.name);
-
         if (normalizedGuess === normalizedName) {
             handleSuccess();
         } else {
@@ -607,40 +645,27 @@
             localStorage.setItem('pixelguess_record', state.record);
         }
         updateScoreboard();
-
-        // Animate Reveal (Depixelate)
+        
         const startRes = DIFFICULTY_LEVELS[state.currentLevelIndex].resolution;
-        animateReveal(startRes, 300, 500); // Shortened animation to 500ms
+        animateReveal(startRes, 300, 500);
 
         if (state.currentRoundIsShiny && els.shinyIndicator) {
             els.shinyIndicator.classList.remove('hidden');
         }
 
-        // Success Visuals
-        if (els.gameCard) {
-            els.gameCard.classList.remove('border-slate-900');
-            els.gameCard.classList.add('border-green-500');
-        }
+        // Success Visuals - No border color change
 
-        showFeedback(`¡Es ${capitalize(state.currentPokemon.name)}!`, 'text-green-400');
-
-        setTimeout(startRound, 2000); // Shorter wait before new round
+        showFeedback(`¡ES ${capitalize(state.currentPokemon.name)}!`, 'text-[#4af626]');
+        setTimeout(startRound, 2000);
     }
 
     function animateReveal(startRes, endRes, duration) {
         const startTime = performance.now();
-        
         function step(now) {
             const elapsed = now - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            
-            // Ease In Cubic: Starts slow (pixelated), ends fast (clear). 
-            // This prevents spending too much time in the "almost clear but shifting pixels" phase.
             const ease = Math.pow(progress, 3);
-            
             const currentRes = startRes + (endRes - startRes) * ease;
-            
-            // Draw
             const w = Math.floor(currentRes);
             const h = Math.floor(currentRes);
             const size = 300;
@@ -649,8 +674,6 @@
             offCanvas.width = w;
             offCanvas.height = h;
             const offCtx = offCanvas.getContext('2d');
-            
-            // Turn off smoothing to keep the pixelated aesthetic until the very end
             ctx.imageSmoothingEnabled = false; 
             offCtx.imageSmoothingEnabled = false;
 
@@ -661,13 +684,11 @@
             if (progress < 1) {
                 requestAnimationFrame(step);
             } else {
-                // Ensure final frame is perfect
                 ctx.imageSmoothingEnabled = true;
                 ctx.clearRect(0, 0, size, size);
                 ctx.drawImage(state.currentImg, 0, 0, size, size);
             }
         }
-        
         requestAnimationFrame(step);
     }
 
@@ -676,29 +697,22 @@
         state.streak = 0;
         updateScoreboard();
 
-        // Reveal animation on failure too
         const startRes = DIFFICULTY_LEVELS[state.currentLevelIndex].resolution;
         animateReveal(startRes, 300, 500); 
 
-        // Show shiny if it was shiny
         if (state.currentRoundIsShiny && els.shinyIndicator) {
             els.shinyIndicator.classList.remove('hidden');
         }
 
-        // Failure Visuals
-        if (els.gameCard) {
-            els.gameCard.classList.remove('border-slate-900');
-            els.gameCard.classList.add('border-red-500');
-        }
+        // Failure Visuals - No border color change
 
-        showFeedback(`Era ${capitalize(state.currentPokemon.name)}`, 'text-red-400');
-        
+        showFeedback(`ERA ${capitalize(state.currentPokemon.name)}`, 'text-red-500');
         setTimeout(startRound, 2500);
     }
 
     function showFeedback(text, colorClass) {
         els.feedbackText.textContent = text;
-        els.feedbackText.className = `text-xl font-mono font-bold text-white px-6 py-4 bg-slate-900 border-4 border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,0.5)] ${colorClass}`;
+        els.feedbackText.className = `text-2xl font-mono font-bold uppercase drop-shadow-[0_2px_0_rgba(0,0,0,1)] ${colorClass}`;
         els.feedback.classList.remove('hidden');
     }
 
