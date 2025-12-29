@@ -2,8 +2,7 @@
 ---
 <div class="relative flex flex-col items-center w-full max-w-2xl mx-auto p-6">
     <!-- Scoreboard -->
-    <!-- Scoreboard -->
-    <div class="w-full flex justify-between items-center mb-8 px-4 py-3 bg-slate-800 border-4 border-slate-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
+    <div class="w-full flex justify-between items-center mb-6 px-4 py-3 bg-slate-800 border-4 border-slate-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
         <div class="flex flex-col items-center">
             <span class="text-xs uppercase tracking-wider text-slate-400 font-mono font-bold mb-1">Racha</span>
             <span id="current-streak" class="text-2xl font-mono text-white">0</span>
@@ -14,10 +13,69 @@
         </div>
     </div>
 
-    <!-- Game Area -->
+    <!-- Settings Controls -->
+    <div class="w-full flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 z-40">
+        <!-- Region Multi-Selector -->
+        <div class="relative w-full sm:w-auto group" id="gen-dropdown-container">
+            <button id="gen-dropdown-btn" class="w-full sm:w-64 bg-slate-800 text-white font-mono text-sm px-4 py-2 border-4 border-slate-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] flex justify-between items-center hover:bg-slate-700 transition-colors">
+                <span>Generaciones (Todas)</span>
+                <span class="text-slate-400">▼</span>
+            </button>
+            <!-- Dropdown Menu -->
+            <div id="gen-dropdown-menu" class="absolute top-full left-0 w-full sm:w-64 bg-slate-800 border-4 border-slate-900 max-h-60 overflow-y-auto hidden shadow-xl mt-1">
+                <div class="p-2 space-y-1">
+                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
+                        <input type="checkbox" value="gen1" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
+                        <span>Gen 1 (Kanto)</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
+                        <input type="checkbox" value="gen2" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
+                        <span>Gen 2 (Johto)</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
+                        <input type="checkbox" value="gen3" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
+                        <span>Gen 3 (Hoenn)</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
+                        <input type="checkbox" value="gen4" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
+                        <span>Gen 4 (Sinnoh)</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
+                        <input type="checkbox" value="gen5" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
+                        <span>Gen 5 (Unova)</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
+                        <input type="checkbox" value="gen6" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
+                        <span>Gen 6 (Kalos)</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
+                        <input type="checkbox" value="gen7" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
+                        <span>Gen 7 (Alola)</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
+                        <input type="checkbox" value="gen8" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
+                        <span>Gen 8 (Galar)</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2 hover:bg-slate-700 cursor-pointer text-white font-mono text-xs">
+                        <input type="checkbox" value="gen9" checked class="form-checkbox h-4 w-4 text-blue-600 bg-slate-900 border-slate-600 rounded focus:ring-0 focus:ring-offset-0">
+                        <span>Gen 9 (Paldea)</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shiny Toggle -->
+        <button id="shiny-toggle" class="w-full sm:w-auto flex items-center justify-center gap-3 px-4 py-2 bg-slate-800 border-4 border-slate-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] active:translate-y-1 active:shadow-none transition-all group hover:bg-slate-700">
+            <span class="text-white font-mono text-sm font-bold uppercase">Shiny (50%)</span>
+            <div class="relative w-12 h-6 bg-slate-900 rounded-full border-2 border-slate-600 transition-colors group-[.is-active]:bg-purple-900 group-[.is-active]:border-purple-600">
+                <div class="absolute top-1/2 -translate-y-1/2 left-1 w-4 h-4 bg-slate-400 rounded-full transition-all group-[.is-active]:left-6 group-[.is-active]:bg-purple-400 shadow-sm"></div>
+            </div>
+        </button>
+    </div>
+
     <!-- Game Area -->
     <div class="relative group w-full flex justify-center mb-8">
-        <div class="relative bg-slate-200 p-2 border-4 border-slate-900 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)]">
+        <div id="game-card" class="relative bg-slate-200 p-2 border-4 border-slate-900 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] transition-colors duration-300">
             <!-- Grid Background Container -->
             <div class="absolute inset-2 z-0 overflow-hidden bg-slate-100">
                 <div class="retro-grid w-full h-full absolute inset-0"></div>
@@ -34,8 +92,15 @@
             </div>
 
             <!-- Feedback Overlay (Correct/Wrong) -->
-            <div id="feedback-overlay" class="absolute inset-2 flex items-center justify-center z-30 pointer-events-none hidden bg-black/50">
+            <div id="feedback-overlay" class="absolute inset-2 flex items-end justify-center pb-6 z-30 pointer-events-none hidden">
                 <span id="feedback-text" class="text-2xl font-mono font-bold text-white px-4 py-2 bg-slate-900 border-2 border-white shadow-[4px_4px_0px_0px_#000]"></span>
+            </div>
+            
+            <!-- Shiny Indicator on reveal -->
+            <div id="shiny-indicator" class="hidden absolute top-4 right-4 z-10">
+                <svg class="w-8 h-8 text-yellow-500 drop-shadow-md animate-bounce" fill="currentColor" viewBox="0 0 24 24"> <!-- Bigger shiny star -->
+                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
             </div>
         </div>
     </div>
@@ -104,13 +169,33 @@
     .animate-shake {
         animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
     }
+    
+    /* Scrollbar Styling for Dropdown */
+    #autocomplete-list::-webkit-scrollbar,
+    #gen-dropdown-menu::-webkit-scrollbar {
+        width: 10px;
+        background: #1e293b;
+    }
+    #autocomplete-list::-webkit-scrollbar-thumb,
+    #gen-dropdown-menu::-webkit-scrollbar-thumb {
+        background: #475569;
+        border: 2px solid #1e293b;
+    }
 </style>
 
 <script>
-    // Configuration
-    // Removed 'original' from playable levels to hide it until game over
-    // Configuration
-    // Reduced to 4 levels as requested (removed separate easy levels)
+    const GEN_RANGES = {
+        'gen1': { min: 1, max: 151 },
+        'gen2': { min: 152, max: 251 },
+        'gen3': { min: 252, max: 386 },
+        'gen4': { min: 387, max: 493 },
+        'gen5': { min: 494, max: 649 },
+        'gen6': { min: 650, max: 721 },
+        'gen7': { min: 722, max: 809 },
+        'gen8': { min: 810, max: 905 },
+        'gen9': { min: 906, max: 1025 }
+    };
+
     const DIFFICULTY_LEVELS = [
         { level: 4, resolution: 8, label: "Extremo" },
         { level: 3, resolution: 10, label: "Difícil" },
@@ -129,7 +214,11 @@
         pokemonList: [],
         currentMatches: [],
         selectedIndex: -1,
-        isRoundActive: true
+        isRoundActive: true,
+        // Settings
+        isShinyMode: false, // user preference (50% chance enabled)
+        currentRoundIsShiny: false, // actual state of current drawing
+        selectedGens: new Set(['gen1', 'gen2', 'gen3', 'gen4', 'gen5', 'gen6', 'gen7', 'gen8', 'gen9'])
     };
 
     // Elements
@@ -144,8 +233,14 @@
         ul: document.getElementById('autocomplete-list'),
         feedback: document.getElementById('feedback-overlay'),
         feedbackText: document.getElementById('feedback-text'),
-        hint: document.getElementById('hint-text'),
-        guessesText: document.getElementById('guesses-text')
+        guessesText: document.getElementById('guesses-text'),
+        // New Controls
+        genBtn: document.getElementById('gen-dropdown-btn'),
+        genMenu: document.getElementById('gen-dropdown-menu'),
+        checkboxes: document.querySelectorAll('#gen-dropdown-menu input[type="checkbox"]'),
+        shinyToggle: document.getElementById('shiny-toggle'),
+        shinyIndicator: document.getElementById('shiny-indicator'),
+        gameCard: document.getElementById('game-card')
     };
 
     const ctx = els.canvas.getContext('2d');
@@ -172,12 +267,96 @@
         els.input.addEventListener('input', handleInput);
         els.input.addEventListener('keydown', handleKeydown);
 
-        // Close dropdown when clicking outside
+        // Close lists from outside
         document.addEventListener('click', (e) => {
             if (e.target !== els.input && e.target !== els.ul) {
                 closeAutocomplete();
             }
+            // Close gen menu if clicked outside container
+            if (!document.getElementById('gen-dropdown-container').contains(e.target)) {
+                els.genMenu.classList.add('hidden');
+            }
         });
+
+        // Settings Listeners
+        els.genBtn.addEventListener('click', () => {
+             els.genMenu.classList.toggle('hidden');
+        });
+
+        els.checkboxes.forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                const val = e.target.value;
+                if (e.target.checked) {
+                    state.selectedGens.add(val);
+                } else {
+                    state.selectedGens.delete(val);
+                }
+                
+                // Prevent unselecting all
+                if (state.selectedGens.size === 0) {
+                    e.target.checked = true;
+                    state.selectedGens.add(val);
+                    return; // Don't trigger reset if we reverted
+                }
+                
+                updateGenButtonText();
+
+                // Reset and new round on change
+                state.streak = 0;
+                updateScoreboard();
+                startRound();
+            });
+        });
+
+        els.shinyToggle.addEventListener('click', () => {
+            state.isShinyMode = !state.isShinyMode;
+            // Toggle visual state
+            if (state.isShinyMode) {
+                els.shinyToggle.classList.add('is-active');
+            } else {
+                els.shinyToggle.classList.remove('is-active');
+            }
+            
+            // Reset and new round on change
+            state.streak = 0;
+            updateScoreboard();
+            startRound();
+        });
+    }
+    
+    function updateGenButtonText() {
+        const count = state.selectedGens.size;
+        const text = count === 9 ? 'Generaciones (Todas)' : `Generaciones (${count})`;
+        els.genBtn.querySelector('span').textContent = text;
+    }
+
+    function getRandomPokemonId() {
+        // Collect all potential IDs
+        let ranges = [];
+        state.selectedGens.forEach(gen => {
+            if (GEN_RANGES[gen]) {
+                ranges.push(GEN_RANGES[gen]);
+            }
+        });
+        
+        if (ranges.length === 0) {
+            // Fallback (should be prevented by UI but just in case)
+            ranges.push(GEN_RANGES['gen1']);
+        }
+
+        // Calculate total weight
+        const total = ranges.reduce((acc, r) => acc + (r.max - r.min + 1), 0);
+        let random = Math.floor(Math.random() * total);
+        
+        // Find which range allows this random index
+        for (const r of ranges) {
+            const span = r.max - r.min + 1;
+            if (random < span) {
+                return r.min + random;
+            }
+            random -= span;
+        }
+        return 1; // Fallback
     }
 
     async function startRound() {
@@ -193,19 +372,51 @@
         
         els.loading.classList.remove('hidden');
         els.feedback.classList.add('hidden');
+        if(els.shinyIndicator) els.shinyIndicator.classList.add('hidden');
+
+        // Reset Card Styles
+        if (els.gameCard) {
+            els.gameCard.classList.remove('border-green-500', 'border-red-500');
+            els.gameCard.classList.add('border-slate-900');
+        }
         
         state.currentLevelIndex = 0;
         updateGuessesText();
 
-        const maxId = 1025;
-        const randomId = Math.floor(Math.random() * maxId) + 1;
+        const randomId = getRandomPokemonId();
         
         try {
             const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
             const data = await res.json();
+
+            // Handle Shiny Chance
+            // If mode enabled: 50/50. Else: 0%
+            let isShinyRound = false;
+            
+            if (state.isShinyMode) {
+                const roll = Math.random();
+                isShinyRound = roll < 0.5;
+                console.log(`[PixelDex] Shiny Roll: ${roll.toFixed(4)} (< 0.5) -> ${isShinyRound ? 'SHINY' : 'Normal'}`);
+            } else {
+                console.log('[PixelDex] Shiny Mode: OFF');
+            }
+            state.currentRoundIsShiny = isShinyRound;
+
+            let imgUrl = data.sprites.other['official-artwork'].front_default || data.sprites.front_default;
+            if (state.currentRoundIsShiny) {
+                // Try to get shiny art, check if exists
+                const shinyUrl = data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny;
+                if (shinyUrl) {
+                    imgUrl = shinyUrl;
+                } else {
+                    console.warn('[PixelDex] Shiny sprite missing for this Pokemon, reverting to normal.');
+                    state.currentRoundIsShiny = false;
+                }
+            }
+
             state.currentPokemon = {
                 name: data.name,
-                imgUrl: data.sprites.other['official-artwork'].front_default || data.sprites.front_default
+                imgUrl: imgUrl
             };
 
             const img = new Image();
@@ -221,7 +432,7 @@
             renderLevel();
             
             state.isLoading = false;
-        els.loading.classList.add('hidden');
+            els.loading.classList.add('hidden');
             els.input.disabled = false;
             els.skipBtn.disabled = false;
             els.submitBtn.disabled = false;
@@ -229,7 +440,8 @@
             
         } catch (e) {
             console.error(e);
-            startRound();
+            state.isLoading = false; 
+            setTimeout(startRound, 1000);
         }
     }
 
@@ -270,7 +482,6 @@
 
     function updateGuessesText() {
         const remaining = DIFFICULTY_LEVELS.length - state.currentLevelIndex;
-        // Text updated to "Guesses remaining"
         if(els.guessesText) els.guessesText.textContent = `Intentos restantes: ${remaining}`;
     }
 
@@ -286,7 +497,7 @@
         const normVal = normalize(val);
         state.currentMatches = state.pokemonList
             .filter(name => normalize(name).includes(normVal))
-            .slice(0, 50); // Increased limit as requested to show more and scroll
+            .slice(0, 50);
 
         if (state.currentMatches.length > 0) {
             state.selectedIndex = -1;
@@ -315,7 +526,6 @@
             els.ul.appendChild(li);
         });
         
-        // Scroll selected into view
         if (state.selectedIndex >= 0) {
             const selectedEl = els.ul.children[state.selectedIndex];
             if (selectedEl) {
@@ -342,10 +552,8 @@
         } else if (e.key === 'Enter') {
             e.preventDefault();
             if (state.selectedIndex >= 0 && !els.ul.classList.contains('hidden')) {
-                // Select from list
                 selectPokemon(state.currentMatches[state.selectedIndex]);
             } else {
-                // Submit
                 handleSubmit();
             }
         } else if (e.key === 'Escape') {
@@ -372,12 +580,10 @@
         const guess = els.input.value;
         if (!guess) return;
 
-        // Validation: must be in the list
         const normalizedGuess = normalize(guess);
         const isValid = state.pokemonList.some(p => normalize(p) === normalizedGuess);
         
         if (!isValid) {
-            // Shake animation or error feedback?
             els.input.classList.add('animate-shake');
             setTimeout(() => els.input.classList.remove('animate-shake'), 500);
             return;
@@ -387,8 +593,6 @@
         if (normalizedGuess === normalizedName) {
             handleSuccess();
         } else {
-             // Wrong guess: Advance level (consume guess) or clear input?
-             // Assuming wrong guess consumes an attempt.
              handleSkip();
              els.input.value = '';
              els.input.focus();
@@ -403,18 +607,68 @@
             localStorage.setItem('pixelguess_record', state.record);
         }
         updateScoreboard();
-        
-        ctx.imageSmoothingEnabled = false; // Keep smooth off for retro pixel feel even on reveal? User said "clean". Let's use false for clarity or true? Usually reveal is high res. 
-        // User wants clean aesthetic. High res is fine.
-        ctx.imageSmoothingEnabled = true;
 
-        // Clear before drawing full res
-        ctx.clearRect(0, 0, 300, 300);
-        ctx.drawImage(state.currentImg, 0, 0, 300, 300);
+        // Animate Reveal (Depixelate)
+        const startRes = DIFFICULTY_LEVELS[state.currentLevelIndex].resolution;
+        animateReveal(startRes, 300, 500); // Shortened animation to 500ms
+
+        if (state.currentRoundIsShiny && els.shinyIndicator) {
+            els.shinyIndicator.classList.remove('hidden');
+        }
+
+        // Success Visuals
+        if (els.gameCard) {
+            els.gameCard.classList.remove('border-slate-900');
+            els.gameCard.classList.add('border-green-500');
+        }
 
         showFeedback(`¡Es ${capitalize(state.currentPokemon.name)}!`, 'text-green-400');
 
-        setTimeout(startRound, 2000);
+        setTimeout(startRound, 2000); // Shorter wait before new round
+    }
+
+    function animateReveal(startRes, endRes, duration) {
+        const startTime = performance.now();
+        
+        function step(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Ease In Cubic: Starts slow (pixelated), ends fast (clear). 
+            // This prevents spending too much time in the "almost clear but shifting pixels" phase.
+            const ease = Math.pow(progress, 3);
+            
+            const currentRes = startRes + (endRes - startRes) * ease;
+            
+            // Draw
+            const w = Math.floor(currentRes);
+            const h = Math.floor(currentRes);
+            const size = 300;
+
+            const offCanvas = document.createElement('canvas');
+            offCanvas.width = w;
+            offCanvas.height = h;
+            const offCtx = offCanvas.getContext('2d');
+            
+            // Turn off smoothing to keep the pixelated aesthetic until the very end
+            ctx.imageSmoothingEnabled = false; 
+            offCtx.imageSmoothingEnabled = false;
+
+            offCtx.drawImage(state.currentImg, 0, 0, w, h);
+            ctx.clearRect(0, 0, size, size);
+            ctx.drawImage(offCanvas, 0, 0, w, h, 0, 0, size, size);
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                // Ensure final frame is perfect
+                ctx.imageSmoothingEnabled = true;
+                ctx.clearRect(0, 0, size, size);
+                ctx.drawImage(state.currentImg, 0, 0, size, size);
+            }
+        }
+        
+        requestAnimationFrame(step);
     }
 
     function handleFailure() {
@@ -422,21 +676,29 @@
         state.streak = 0;
         updateScoreboard();
 
-        ctx.imageSmoothingEnabled = true;
-        ctx.clearRect(0, 0, 300, 300);
-        ctx.drawImage(state.currentImg, 0, 0, 300, 300);
+        // Reveal animation on failure too
+        const startRes = DIFFICULTY_LEVELS[state.currentLevelIndex].resolution;
+        animateReveal(startRes, 300, 500); 
+
+        // Show shiny if it was shiny
+        if (state.currentRoundIsShiny && els.shinyIndicator) {
+            els.shinyIndicator.classList.remove('hidden');
+        }
+
+        // Failure Visuals
+        if (els.gameCard) {
+            els.gameCard.classList.remove('border-slate-900');
+            els.gameCard.classList.add('border-red-500');
+        }
 
         showFeedback(`Era ${capitalize(state.currentPokemon.name)}`, 'text-red-400');
         
-        setTimeout(startRound, 3000); // Little longer to see
+        setTimeout(startRound, 2500);
     }
 
     function showFeedback(text, colorClass) {
         els.feedbackText.textContent = text;
-        
-        // Dynamic color for text not needed as much if we have a standard box, but keeping color text useful
         els.feedbackText.className = `text-xl font-mono font-bold text-white px-6 py-4 bg-slate-900 border-4 border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,0.5)] ${colorClass}`;
-
         els.feedback.classList.remove('hidden');
     }
 
@@ -445,7 +707,5 @@
         els.record.textContent = state.record;
     }
 
-    // Run
     init();
-
 </script>
