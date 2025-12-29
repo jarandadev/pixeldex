@@ -16,7 +16,7 @@
         <div class="relative bg-[#dc0a2d] rounded-b-3xl border-b-[8px] border-l-[4px] border-r-[4px] border-[#89061c] pt-2 pb-8 px-6 z-10 flex flex-col gap-6">
 
             <!-- Lens Header Section -->
-            <div class="relative w-full flex items-start justify-between -mt-6 mb-2 z-20">
+            <div class="relative w-full flex items-start gap-8 -mt-6 mb-2 z-20">
                 <!-- Main Blue Lens -->
                 <div class="relative w-16 h-16 rounded-full bg-blue-500 border-[4px] border-white shadow-[0px_2px_4px_rgba(0,0,0,0.3)] overflow-hidden">
                     <div class="absolute top-1 left-2 w-4 h-4 bg-white opacity-40 rounded-full blur-[2px]"></div>
@@ -32,10 +32,10 @@
             </div>
 
             <!-- Screen Container (Bezel) -->
-            <div class="bg-[#dedede] p-5 rounded-xl rounded-bl-[40px] border-4 border-[#89061c] shadow-[inset_0_0_15px_rgba(0,0,0,0.1)] relative">
+            <div class="bg-[#dedede] px-8 pt-3 pb-2 rounded rounded-bl-[40px] border-4 border-[#89061c] shadow-[inset_0_0_15px_rgba(0,0,0,0.1)]">
                 
                 <!-- Tiny Red Dots -->
-                <div class="flex justify-center gap-3 mb-2">
+                <div class="flex justify-center gap-3 mb-3">
                     <div class="w-2 h-2 bg-red-600 rounded-full shadow-sm"></div>
                     <div class="w-2 h-2 bg-red-600 rounded-full shadow-sm"></div>
                 </div>
@@ -44,10 +44,15 @@
                 <div id="game-card" class="relative bg-[#232323] border-4 border-[#4a4a4a] rounded shadow-inner overflow-hidden flex flex-col p-2 transition-colors duration-300">
                     
                     <!-- Stats Line -->
-                    <div class="w-full flex justify-between px-1 mb-1 border-b border-[#444] pb-1">
+                    <div class="w-full flex justify-between items-center px-1 mb-1 pb-1">
                         <div class="flex flex-col leading-none">
                              <span class="text-[10px] text-[#4af626] font-mono tracking-wider opacity-70">STREAK</span>
                              <span id="current-streak" class="font-mono text-center text-[#4af626] text-lg">0</span>
+                        </div>
+                        <!-- Reveal Pokemon Name (Hidden by default) -->
+                        <div id="reveal-name" class="hidden flex-col items-center leading-none max-w-[140px]">
+                             <span id="reveal-label" class="text-[8px] font-mono tracking-wider opacity-70"></span>
+                             <span id="reveal-pokemon" class="font-mono text-center text-sm font-bold uppercase truncate w-full"></span>
                         </div>
                         <div class="flex flex-col items-end leading-none">
                              <span class="text-[10px] text-yellow-400 font-mono tracking-wider opacity-70">RECORD</span>
@@ -61,22 +66,33 @@
                         <canvas id="game-canvas" width="300" height="300" class="relative z-10 w-full h-full object-contain image-rendering-pixelated"></canvas>
                         
                         <!-- Loading -->
-                        <div id="loading-overlay" class="absolute inset-0 flex items-center justify-center bg-[#232323] z-20">
-                             <span class="text-[#4af626] font-mono text-xs animate-pulse">CARGANDO...</span>
-                        </div>
-
-                        <!-- Feedback (Hidden) -->
-                        <div id="feedback-overlay" class="absolute inset-0 flex items-center justify-center bg-transparent z-30 hidden p-2 text-center">
-                             <span id="feedback-text" class="text-transparent font-mono text-xl md:text-2xl font-bold uppercase"></span>
+                        <div id="loading-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-[#232323] z-20 gap-3">
+                             <div class="pokeball-spinner"></div>
+                             <div class="flex gap-1">
+                                 <span class="loading-dot"></span>
+                                 <span class="loading-dot" style="animation-delay: 0.2s"></span>
+                                 <span class="loading-dot" style="animation-delay: 0.4s"></span>
+                             </div>
                         </div>
 
                         <!-- Shiny Star -->
-                        <div id="shiny-indicator" class="hidden absolute top-1 right-1 z-30">
-                             <svg class="w-5 h-5 text-yellow-400 drop-shadow-sm animate-bounce" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <div id="shiny-indicator" class="hidden absolute top-2 right-2 z-30">
+                             <svg class="w-8 h-8 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                         </div>
                     </div>
                 </div>
+
+                <div class="flex justify-between items-center gap-3 mt-2">
+                    <div class="w-4 h-4 bg-red-600 rounded-full shadow-sm"></div>
+                    <span>PIXELDEX v1.0</span>
+                    <div class="space-y-1">
+                        <div class="h-1 w-6 bg-[#5a5a5a] rounded-full"></div>
+                        <div class="h-1 w-6 bg-[#5a5a5a] rounded-full"></div>
+                        <div class="h-1 w-6 bg-[#5a5a5a] rounded-full"></div>
+                    </div>
+                </div>
             </div>
+            
 
             <!-- Controls Deck -->
             <div class="flex gap-4 items-center justify-between">
@@ -112,12 +128,12 @@
                     <!-- Skip and Submit Buttons Row -->
                     <div class="flex gap-2">
                         <!-- Skip Button (Red with counter) -->
-                        <button id="skip-btn" class="flex-1 bg-red-600 h-12 rounded text-white font-mono text-[12px] font-bold border-b-[3px] border-red-900 active:border-0 active:translate-y-1 cursor-pointer transition-all flex items-center justify-center">
+                        <button id="skip-btn" class="flex-1 bg-red-500 h-12 rounded text-white font-mono text-[12px] font-bold border-b-[3px] border-red-900 active:border-0 active:translate-y-1 cursor-pointer transition-all flex items-center justify-center">
                             <span id="skip-btn-text">SKIP (4)</span>
                         </button>
                         
                         <!-- Submit Button (Blue) -->
-                        <button id="submit-btn" class="flex-1 bg-blue-600 h-12 rounded text-white font-mono text-[12px] font-bold border-b-[3px] border-blue-900 active:border-0 active:translate-y-1 cursor-pointer transition-all">
+                        <button id="submit-btn" class="flex-1 bg-blue-500 h-12 rounded text-white font-mono text-[12px] font-bold border-b-[3px] border-blue-900 active:border-0 active:translate-y-1 cursor-pointer transition-all">
                             SUBMIT
                         </button>
                     </div>
@@ -128,7 +144,7 @@
                             type="text" 
                             id="guess-input" 
                             class="w-full bg-[#98c993] text-[#232323] px-3 py-2 font-mono text-sm uppercase placeholder-[#5a7a57] border-4 border-[#5a5a5a] shadow-inner rounded outline-none focus:bg-[#aadda5] transition-colors tracking-wide"
-                            placeholder="NOMBRE..." 
+                            placeholder="NAME..." 
                             autocomplete="off"
                         >
                         <ul id="autocomplete-list" class="absolute uppercase left-0 right-0 top-full mt-1 bg-[#98c993] border-4 border-[#5a5a5a] max-h-32 overflow-y-auto hidden z-50 shadow-xl rounded font-mono text-[#232323]"></ul>
@@ -205,6 +221,63 @@
     }
     .animate-shake { animation: shake 0.3s ease-in-out; }
 
+    /* Pokeball Spinner Animation */
+    .pokeball-spinner {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(to bottom, #dc0a2d 0%, #dc0a2d 50%, #fff 50%, #fff 100%);
+        position: relative;
+        animation: spin 1s linear infinite;
+        border: 3px solid #232323;
+    }
+    
+    .pokeball-spinner::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 14px;
+        height: 14px;
+        background: #fff;
+        border: 3px solid #232323;
+        border-radius: 50%;
+        z-index: 2;
+    }
+    
+    .pokeball-spinner::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: #232323;
+        transform: translateY(-50%);
+        z-index: 1;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* Loading Dots */
+    .loading-dot {
+        width: 6px;
+        height: 6px;
+        background: #4af626;
+        border-radius: 50%;
+        display: inline-block;
+        animation: dotPulse 1.4s infinite ease-in-out both;
+    }
+    
+    @keyframes dotPulse {
+        0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+        40% { opacity: 1; transform: scale(1.2); }
+    }
+
     /* Button Active States (Applied by JS) */
     .btn-active-gold {
         background-color: #422006 !important; /* Dark Brown/Gold bg */
@@ -261,8 +334,9 @@
         record: document.getElementById('record-streak'),
         loading: document.getElementById('loading-overlay'),
         ul: document.getElementById('autocomplete-list'),
-        feedback: document.getElementById('feedback-overlay'),
-        feedbackText: document.getElementById('feedback-text'),
+        revealName: document.getElementById('reveal-name'),
+        revealLabel: document.getElementById('reveal-label'),
+        revealPokemon: document.getElementById('reveal-pokemon'),
         genBtn: document.getElementById('gen-dropdown-btn'),
         genMenu: document.getElementById('gen-dropdown-menu'),
         checkboxes: [], 
@@ -431,7 +505,7 @@
         closeAutocomplete();
         
         els.loading.classList.remove('hidden');
-        els.feedback.classList.add('hidden');
+        if(els.revealName) els.revealName.classList.add('hidden');
         if(els.shinyIndicator) els.shinyIndicator.classList.add('hidden');
 
         // Card colors remain unchanged
@@ -507,21 +581,23 @@
 
     function handleSkip() {
         if (!state.isRoundActive || state.isLoading) return;
+        
         if (state.currentLevelIndex < DIFFICULTY_LEVELS.length - 1) {
             state.currentLevelIndex++;
             renderLevel();
             updateGuessesText();
         } else {
+            // Ya estamos en el último nivel, ejecutar failure
             handleFailure();
         }
         els.input.focus();
     }
 
     function updateGuessesText() {
-        const remaining = DIFFICULTY_LEVELS.length - state.currentLevelIndex;
+        // Calcular cuántos niveles quedan DESPUÉS del actual
+        const remaining = DIFFICULTY_LEVELS.length - state.currentLevelIndex - 1;
         if(els.skipBtnText) els.skipBtnText.textContent = `SKIP (${remaining})`;
     }
-
     function handleInput(e) {
         if (!state.isRoundActive) return;
         const val = e.target.value;
@@ -641,9 +717,8 @@
             els.shinyIndicator.classList.remove('hidden');
         }
 
-        // Success Visuals - No border color change
-
-        showFeedback(`¡ES ${capitalize(state.currentPokemon.name)}!`, 'text-[#4af626]');
+        // Success Visuals - Show name at top in green
+        showRevealName(state.currentPokemon.name, true);
         setTimeout(startRound, 2000);
     }
 
@@ -692,16 +767,23 @@
             els.shinyIndicator.classList.remove('hidden');
         }
 
-        // Failure Visuals - No border color change
-
-        showFeedback(`ERA ${capitalize(state.currentPokemon.name)}`, 'text-red-500');
+        // Failure Visuals - Show name at top in red
+        showRevealName(state.currentPokemon.name, false);
         setTimeout(startRound, 2500);
     }
 
-    function showFeedback(text, colorClass) {
-        els.feedbackText.textContent = text;
-        els.feedbackText.className = `text-2xl font-mono font-bold uppercase drop-shadow-[0_2px_0_rgba(0,0,0,1)] ${colorClass}`;
-        els.feedback.classList.remove('hidden');
+    function showRevealName(pokemonName, isSuccess) {
+        if (!els.revealName || !els.revealLabel || !els.revealPokemon) return;
+        
+        const label = isSuccess ? 'CORRECT!' : 'FAILED!';
+        const colorClass = isSuccess ? 'text-[#4af626]' : 'text-red-500';
+        
+        els.revealLabel.textContent = label;
+        els.revealLabel.className = `text-[10px] font-mono tracking-wider opacity-70 ${colorClass}`;
+        els.revealPokemon.textContent = capitalize(pokemonName);
+        els.revealPokemon.className = `font-mono text-center text-md font-bold uppercase truncate w-full ${colorClass}`;
+        els.revealName.classList.remove('hidden');
+        els.revealName.classList.add('flex');
     }
 
     function updateScoreboard() {
