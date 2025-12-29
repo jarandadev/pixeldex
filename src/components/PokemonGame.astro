@@ -120,10 +120,16 @@
                     </div>
 
                     <!-- Shiny Button (D-Pad Style) -->
-                    <button id="shiny-toggle" class="w-12 h-12 bg-[#333] rounded-full border-b-[3px] border-black flex items-center justify-center active:border-0 active:translate-y-1 transition-all cursor-pointer">
-                        <!-- Star Icon -->
-                        <svg id="shiny-icon" class="w-5 h-5 text-slate-400 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    </button>
+                    <div class="relative shiny-tooltip-container">
+                        <button id="shiny-toggle" class="w-12 h-12 bg-[#333] rounded-full border-b-[3px] border-black flex items-center justify-center active:border-0 active:translate-y-1 transition-all cursor-pointer">
+                            <!-- Star Icon -->
+                            <svg id="shiny-icon" class="w-5 h-5 text-slate-400 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </button>
+                        <!-- Tooltip -->
+                        <div id="shiny-tooltip" class="shiny-tooltip">
+                            <span id="shiny-tooltip-text">50% SHINY OFF</span>
+                        </div>
+                    </div>
                     
                 </div>
 
@@ -284,6 +290,42 @@
         background-color: #422006 !important; /* Dark Brown/Gold bg */
         border-color: #fcc800 !important; /* Yellow-500 */
     }
+
+    /* Shiny Tooltip */
+    .shiny-tooltip {
+        position: absolute;
+        bottom: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #98c993;
+        border: 3px solid #333;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 10px;
+        font-weight: bold;
+        color: #232323;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 100;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .shiny-tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 5px solid transparent;
+        border-top-color: #333;
+    }
+
+    .shiny-tooltip-container:hover .shiny-tooltip {
+        opacity: 1;
+    }
 </style>
 
 <script>
@@ -343,7 +385,8 @@
         checkboxes: [], 
         shinyToggle: document.getElementById('shiny-toggle'),
         shinyIndicator: document.getElementById('shiny-indicator'),
-        gameCard: document.getElementById('game-card')
+        gameCard: document.getElementById('game-card'),
+        shinyTooltipText: document.getElementById('shiny-tooltip-text')
     };
 
     const ctx = els.canvas.getContext('2d');
@@ -469,10 +512,12 @@
         
         if (state.isShinyMode) {
             icon.classList.remove('text-slate-400');
-            icon.classList.add('text-yellow-500'); 
+            icon.classList.add('text-yellow-500');
+            if (els.shinyTooltipText) els.shinyTooltipText.textContent = '50% SHINY ON';
         } else {
             icon.classList.add('text-slate-400');
             icon.classList.remove('text-yellow-500');
+            if (els.shinyTooltipText) els.shinyTooltipText.textContent = '50% SHINY OFF';
         }
     }
 
