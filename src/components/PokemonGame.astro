@@ -84,6 +84,53 @@
                         <div id="shiny-indicator" class=" absolute top-2 right-2 z-30">
                              <svg class="w-8 h-8 text-yellow-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                         </div>
+
+
+<!-- Game Over Overlay -->
+<div id="game-over-overlay" class="absolute inset-0 z-40 bg-[#98c993] items-center justify-center flex-col hidden animate-in fade-in duration-300">
+    <!-- Grid background for consistency -->
+    <div class="absolute inset-0 z-0 opacity-30 pointer-events-none cyber-grid"></div>
+    
+    <div class="relative z-10 w-full h-full flex flex-col items-center justify-center p-3">
+        <!-- New Record Tag -->
+        <div id="new-record-tag" class="hidden absolute top-2 right-2 bg-yellow-400 text-black text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm animate-bounce z-20">NEW RECORD!</div>
+        
+        <h2 class="text-[#232323] font-mono text-center text-xl font-black mb-3 border-b-2 border-[#5a7a57] pb-1 w-full max-w-[200px]">GAME OVER</h2>
+        
+        <div class="w-full space-y-3 font-mono text-[#232323] max-w-[240px]">
+            <!-- Main Stats -->
+            <div class="flex justify-around items-center gap-3">
+                <div class="flex-1 flex flex-col items-center leading-none bg-[#8bac87]/40 p-2 rounded border-2 border-[#5a7a57] shadow-sm">
+                    <span class="text-[10px] tracking-wider opacity-70 mb-1 font-bold">SCORE</span>
+                    <span id="finish-score" class="text-xl font-black">0</span>
+                </div>
+                <div class="flex-1 flex flex-col items-center leading-none bg-[#8bac87]/40 p-2 rounded border-2 border-[#5a7a57] shadow-sm">
+                    <span class="text-[10px] tracking-wider opacity-70 mb-1 font-bold">RECORD</span>
+                    <span id="finish-record" class="text-xl font-black">0</span>
+                </div>
+            </div>
+
+            <!-- Configuration Summary -->
+            <div class="pt-2  border-[#5a7a57]/20">
+                <span class="opacity-60 block mb-2 font-bold text-center text-[9px] tracking-widest uppercase italic">Settings</span>
+                <div class="text-[10px] space-y-1.5 px-0.5">
+                    <div class="flex justify-between items-start gap-3">
+                        <span class="opacity-60 font-bold shrink-0">GENS:</span>
+                        <span id="finish-gens" class="font-bold text-right break-words leading-tight max-w-[140px]"></span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="opacity-60 font-bold">SHINY:</span>
+                        <span id="finish-shiny" class="font-bold"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button id="restart-btn" class="mt-4 px-8 py-2.5 bg-[#232323] text-[#98c993] font-mono font-black hover:bg-[#333] active:scale-95 transition-all text-xs rounded border-b-4 border-black group uppercase tracking-widest">
+            <span class="group-active:translate-y-0.5 block">PLAY AGAIN</span>
+        </button>
+    </div>
+</div>
                     </div>
                 </div>
 
@@ -360,6 +407,8 @@
         currentMatches: [],
         selectedIndex: -1,
         isRoundActive: true,
+        sessionBest: 0,
+        initialRecord: parseInt(localStorage.getItem('pixelguess_record') || '0'),
         // Settings
         isShinyMode: false, 
         currentRoundIsShiny: false, 
@@ -386,7 +435,9 @@
         shinyToggle: document.getElementById('shiny-toggle'),
         shinyIndicator: document.getElementById('shiny-indicator'),
         gameCard: document.getElementById('game-card'),
-        shinyTooltipText: document.getElementById('shiny-tooltip-text')
+        shinyTooltipText: document.getElementById('shiny-tooltip-text'),
+        gameOverOverlay: document.getElementById('game-over-overlay'),
+        restartBtn: document.getElementById('restart-btn')
     };
 
     const ctx = els.canvas.getContext('2d');
@@ -481,6 +532,12 @@
             if (els.genMenu && !document.getElementById('gen-dropdown-container').contains(e.target)) {
                 els.genMenu.classList.add('hidden');
             }
+        });
+
+        els.restartBtn?.addEventListener('click', () => {
+             els.gameOverOverlay?.classList.add('hidden');
+             els.gameOverOverlay?.classList.remove('flex');
+             startRound();
         });
 
         els.genBtn.addEventListener('click', () => {
@@ -832,6 +889,7 @@
 
     function handleFailure() {
         state.isRoundActive = false;
+        const finalScore = state.streak;
         state.streak = 0;
         updateScoreboard();
 
@@ -843,11 +901,60 @@
         }
 
         // Failure Visuals - Show name at top in red
-        showRevealName(state.currentPokemon.name, false);
-        setTimeout(startRound, 2500);
+        showRevealName(state.currentPokemon.name || '', false);
+        
+        // Use a slight delay to allow the user to see the pokemon and names correctly
+        setTimeout(() => {
+            showGameOverModal(finalScore);
+        }, 1800);
     }
 
-    function showRevealName(pokemonName, isSuccess) {
+    function showGameOverModal(score) {
+        if (!els.gameOverOverlay) return;
+
+        // Populate modal
+        const finishScore = document.getElementById('finish-score');
+        const finishRecord = document.getElementById('finish-record');
+        if (finishScore) finishScore.textContent = String(score);
+        if (finishRecord) finishRecord.textContent = String(state.record);
+        
+        // Show new record tag if relevant
+        const isNewRecord = score > 0 && score >= state.record && score > state.initialRecord;
+        const tag = document.getElementById('new-record-tag');
+        if (tag) {
+            if (isNewRecord) {
+                tag.classList.remove('hidden');
+            } else {
+                tag.classList.add('hidden');
+            }
+        }
+
+        // Configuration display
+        const genNames = {
+            'gen1': 'I', 'gen2': 'II', 'gen3': 'III', 'gen4': 'IV', 'gen5': 'V',
+            'gen6': 'VI', 'gen7': 'VII', 'gen8': 'VIII', 'gen9': 'IX'
+        } as Record<string, string>;
+        
+        const selectedGensStrings = Array.from(state.selectedGens)
+            .map(g => genNames[g] || g)
+            .sort((a,b) => {
+                const order = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
+                return order.indexOf(a) - order.indexOf(b);
+            })
+            .join(', ');
+        
+        const finishGens = document.getElementById('finish-gens');
+        const finishShiny = document.getElementById('finish-shiny');
+        
+        if (finishGens) finishGens.textContent = state.selectedGens.size === 9 ? 'ALL (I-IX)' : selectedGensStrings;
+        if (finishShiny) finishShiny.textContent = state.isShinyMode ? 'ON' : 'OFF';
+
+        // Show modal
+        els.gameOverOverlay.classList.remove('hidden');
+        els.gameOverOverlay.classList.add('flex');
+    }
+
+    function showRevealName(pokemonName: string, isSuccess: boolean) {
         if (!els.revealName || !els.revealLabel || !els.revealPokemon) return;
         
         // const label = isSuccess ? 'CORRECT!' : 'FAILED!';
@@ -862,8 +969,8 @@
     }
 
     function updateScoreboard() {
-        els.streak.textContent = state.streak;
-        els.record.textContent = state.record;
+        if (els.streak) els.streak.textContent = String(state.streak);
+        if (els.record) els.record.textContent = String(state.record);
     }
 
     init();
