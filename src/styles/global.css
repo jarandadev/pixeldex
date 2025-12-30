@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+@layer base {
+  :root {
+    --text-xs: 0.5rem; 
+    --text-sm: 0.75rem; 
+    --text-md: 1rem; 
+    --text-lg: 1.25rem; 
+    --text-xl: 1.5rem;
+  }
+
+}
