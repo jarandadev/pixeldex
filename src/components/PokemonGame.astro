@@ -51,6 +51,11 @@
                         <div class="absolute inset-0 shadow-[inset_-1px_-1px_3px_rgba(0,0,0,0.2)]"></div>
                     </div>
                 </div>
+
+                <!-- Pokedex Number Display -->
+                <div class="ml-auto mt-2 bg-[#1a1a1a] border-2 border-white rounded-lg px-3 py-1 min-w-[90px] flex items-center justify-center">
+                    <span id="pokedex-number" class="text-white font-mono text-2xl font-bold tracking-[0.2em]">????</span>
+                </div>
             </div>
 
 
@@ -471,6 +476,7 @@
     // State
     let state = {
         currentPokemon: null as { name: string, imgUrl: string } | null,
+        currentPokemonId: null as number | null,
         currentImg: null,
         currentLevelIndex: 0, 
         isLoading: false,
@@ -522,7 +528,8 @@
         indicatorSprites: document.getElementById('indicator-sprites-light'),
         indicatorGens: document.getElementById('indicator-gens-light'),
         lensCheck: document.getElementById('lens-check'),
-        lensCross: document.getElementById('lens-cross')
+        lensCross: document.getElementById('lens-cross'),
+        pokedexNumber: document.getElementById('pokedex-number')
     };
 
     const ctx = els.canvas.getContext('2d');
@@ -644,10 +651,13 @@
 
         function toggleSettings() {
              const isOpen = !els.settingsOverlay?.classList.contains('hidden');
+             const isGameOverActive = !els.gameOverOverlay?.classList.contains('hidden');
              
              if (isOpen) {
                  // CLOSING: Check for changes
                  const snapshot = state.settingsSnapshot;
+                 let shouldStartRound = false;
+
                  if (snapshot) {
                      const currentGens = JSON.stringify(Array.from(state.selectedGens).sort());
                      const snapshotGens = JSON.stringify(Array.from(snapshot.selectedGens).sort());
@@ -660,8 +670,19 @@
                      if (hasChanged) {
                          state.streak = 0;
                          updateScoreboard();
-                         startRound(true);
+                         shouldStartRound = true;
                      }
+                 }
+
+                 // If closing from game over, always start new round
+                 if (isGameOverActive) {
+                     els.gameOverOverlay?.classList.add('hidden');
+                     els.gameOverOverlay?.classList.remove('flex');
+                     shouldStartRound = true;
+                 }
+
+                 if (shouldStartRound) {
+                     startRound(true);
                  }
 
                  els.settingsOverlay?.classList.add('hidden');
@@ -772,6 +793,7 @@
         els.loading.classList.remove('hidden');
         if(els.revealName) els.revealName.classList.add('hidden');
         if(els.shinyIndicator) els.shinyIndicator.classList.add('hidden');
+        if(els.pokedexNumber) els.pokedexNumber.textContent = '????';
         showLensIcon('none');
 
         // Card colors remain unchanged
@@ -781,6 +803,7 @@
         updateLEDs();
 
         const randomId = getRandomPokemonId();
+        state.currentPokemonId = randomId;
         const roundStartTime = Date.now();
         
         try {
@@ -860,6 +883,10 @@
             state.currentLevelIndex++;
             renderLevel();
             updateGuessesText();
+            showLensIcon('cross');
+            setTimeout(() => {
+                if (state.isRoundActive) showLensIcon('none');
+            }, 600);
         } else {
             // Ya estamos en el último nivel, ejecutar failure
             handleFailure();
@@ -1052,6 +1079,10 @@
             els.shinyIndicator.classList.remove('hidden');
         }
 
+        if (els.pokedexNumber && state.currentPokemonId) {
+            els.pokedexNumber.textContent = String(state.currentPokemonId).padStart(4, '0');
+        }
+
         // Success Visuals - Show name at top in green
         showRevealName(state.currentPokemon.name, true);
         setTimeout(startRound, 2000);
@@ -1103,6 +1134,10 @@
 
         if (state.currentRoundIsShiny && els.shinyIndicator) {
             els.shinyIndicator.classList.remove('hidden');
+        }
+
+        if (els.pokedexNumber && state.currentPokemonId) {
+            els.pokedexNumber.textContent = String(state.currentPokemonId).padStart(4, '0');
         }
 
         // Failure Visuals - Show name at top in red
