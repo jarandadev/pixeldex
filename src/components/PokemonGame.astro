@@ -992,7 +992,7 @@
             const li = document.createElement('li');
             const isSelected = index === state.selectedIndex;
             // Retro style matching
-            li.className = `px-4 cursor-pointer font-mono text-sm border-b border-[#5a7a57] last:border-0 flex items-center justify-between ${
+            li.className = `px-4 min-h-[48px] cursor-pointer font-mono text-sm border-b border-[#5a7a57] last:border-0 flex items-center justify-between ${
                 isSelected ? 'bg-[#5a7a57] text-[#232323]' : 'text-[#232323] hover:bg-[#8bac87]'
             }`;
             
