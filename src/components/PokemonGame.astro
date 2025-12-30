@@ -112,18 +112,15 @@
     <div class="absolute inset-0 z-0 opacity-30 pointer-events-none cyber-grid"></div>
     
     <div class="relative z-10 w-full h-full flex flex-col items-center justify-center p-2">
-        <!-- New Record Tag -->
-        <!-- TODO -->
-        <div id="new-record-tag" class="hidden absolute top-2 right-2 bg-yellow-500 text-black text-xs font-bold px-1.5 py-0.5 rounded shadow-sm animate-bounce z-20">NEW RECORD!</div>
-        
         <h2 class="text-[#232323] font-mono text-center text-xl font-black mb-3 border-b-2 border-[#5a7a57] pb-1 w-full max-w-[200px]">GAME OVER</h2>
         
         <div class="w-full space-y-3 font-mono text-[#232323] max-w-[240px]">
             <!-- Main Stats -->
             <div class="flex justify-around items-center gap-3">
-                <div class="flex-1 flex flex-col items-center leading-none bg-[#8bac87]/40 p-2 rounded border-2 border-[#5a7a57] shadow-sm">
+                <div class="flex-1 flex flex-col items-center leading-none bg-[#8bac87]/40 p-2 rounded border-2 border-[#5a7a57] shadow-sm relative">
                     <span class="text-xs tracking-wider opacity-70 mb-1 font-bold">SCORE</span>
                     <span id="finish-score" class="text-xl font-black">0</span>
+                    <span id="new-record-tag" class="hidden absolute -bottom-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-black text-xs font-bold px-1.5 py-0.5 animate-bounce rounded shadow-sm uppercase tracking-tighter whitespace-nowrap z-20">NEW BEST!</span>
                 </div>
                 <div class="flex-1 flex flex-col items-center leading-none bg-[#8bac87]/40 p-2 rounded border-2 border-[#5a7a57] shadow-sm">
                     <span class="text-xs tracking-wider opacity-70 mb-1 font-bold">BEST</span>
@@ -649,7 +646,7 @@
                      if (hasChanged) {
                          state.streak = 0;
                          updateScoreboard();
-                         startRound();
+                         startRound(true);
                      }
                  }
 
@@ -726,13 +723,9 @@
         const isGameOverOpen = !els.gameOverOverlay?.classList.contains('hidden');
         const shouldDisable = isSettingsOpen || isGameOverOpen || state.isLoading || !state.isRoundActive;
 
-        if (els.input) els.input.disabled = shouldDisable;
-        if (els.skipBtn) els.skipBtn.disabled = shouldDisable;
-        if (els.submitBtn) els.submitBtn.disabled = shouldDisable;
-
-        if (!shouldDisable) {
-            els.input?.focus();
-        }
+        if (els.input) (els.input as HTMLInputElement).disabled = shouldDisable;
+        if (els.skipBtn) (els.skipBtn as HTMLButtonElement).disabled = shouldDisable;
+        if (els.submitBtn) (els.submitBtn as HTMLButtonElement).disabled = shouldDisable;
     }
 
     function getRandomPokemonId() {
@@ -753,7 +746,7 @@
         return 1; 
     }
 
-    async function startRound() {
+    async function startRound(skipFocus = false) {
         if (state.isLoading) return;
         state.isLoading = true;
         state.isRoundActive = true;
@@ -816,7 +809,7 @@
             els.loading.classList.add('hidden');
             updateControlsState();
             
-            if (els.input) (els.input as HTMLInputElement).focus();
+            if (!skipFocus && !isMobile() && els.input) (els.input as HTMLInputElement).focus();
             
         } catch (e) {
             console.error(e);
@@ -1120,13 +1113,14 @@
     }
 
     function showRevealName(pokemonName: string, isSuccess: boolean) {
-        if (!els.revealName || !els.revealLabel || !els.revealPokemon) return;
+        if (!els.revealName || !els.revealPokemon) return;
         
         // const label = isSuccess ? 'CORRECT!' : 'FAILED!';
         const colorClass = isSuccess ? 'text-white' : 'text-red-500';
         
-        // els.revealLabel.textContent = label;
-        els.revealLabel.className = `text-xs font-mono tracking-wider opacity-70 ${colorClass}`;
+        if (els.revealLabel) {
+            els.revealLabel.className = `text-xs font-mono tracking-wider opacity-70 ${colorClass}`;
+        }
         els.revealPokemon.textContent = capitalize(pokemonName);
         els.revealPokemon.className = `font-mono text-center text-md font-bold uppercase truncate w-full ${colorClass}`;
         els.revealName.classList.remove('hidden');
