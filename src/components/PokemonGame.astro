@@ -6,10 +6,41 @@
     <div class="relative w-full max-w-[550px] filter drop-shadow-2xl">
         
         <!-- Main Body Chassis (Unified) -->
-        <div class="relative bg-[#dc0a2d] rounded-3xl border-[4px] border-[#89061c] border-b-[8px] pt-10 pb-8 px-6 flex flex-col gap-6">
+        <div class="relative bg-[#dc0a2d] rounded-3xl border-[4px] border-[#89061c] border-b-[8px] pt-10 pb-8 px-6 flex flex-col gap-6 overflow-hidden">
+            
+            <!-- Glossy Highlights -->
+            <div class="absolute top-0 left-0 right-0 h-4 bg-white/20 blur-sm pointer-events-none"></div>
+            <div class="absolute top-0 left-0 w-8 bottom-0 bg-white/10 blur-md pointer-events-none"></div>
+
+            <!-- Decorative Screws -->
+            <div class="absolute top-4 left-4 w-2 h-2 rounded-full bg-[#89061c] shadow-[inset_1px_1px_2px_rgba(0,0,0,0.5)]"></div>
+            <div class="absolute top-4 right-4 w-2 h-2 rounded-full bg-[#89061c] shadow-[inset_1px_1px_2px_rgba(0,0,0,0.5)]"></div>
+            <div class="absolute bottom-4 left-4 w-2 h-2 rounded-full bg-[#89061c] shadow-[inset_1px_1px_2px_rgba(0,0,0,0.5)]"></div>
+            <div class="absolute bottom-4 right-4 w-2 h-2 rounded-full bg-[#89061c] shadow-[inset_1px_1px_2px_rgba(0,0,0,0.5)]"></div>
+
+            <!-- Chassis Decorative Line with Shadow -->
+            <div class="absolute top-24 left-0 right-0 h-10 pointer-events-none z-10 overflow-hidden">
+                <svg class="w-full h-full" viewBox="0 0 540 40" preserveAspectRatio="none">
+                    <defs>
+                        <!-- Mask to truncate shadow above the line -->
+                        <clipPath id="shadow-clip">
+                            <path d="M0 32 H240 L280 2 H540 V40 H0 Z" />
+                        </clipPath>
+                    </defs>
+                    <!-- Subtle Shadow (Clipped) -->
+                    <path d="M0 34 H240 L280 4 H540" 
+                          fill="none" 
+                          stroke="rgba(0,0,0,0.2" 
+                          stroke-width="8" 
+                          class="blur-[3px]" 
+                          clip-path="url(#shadow-clip)" />
+                    <!-- Main Border Line -->
+                    <path d="M0 32 H240 L280 2 H540" fill="none" stroke="#89061c" stroke-width="3" />
+                </svg>
+            </div>
 
             <!-- Lens Header Section -->
-            <div class="relative w-full flex items-start gap-4 -mt-4 mb-2 z-20">
+            <div class="relative w-full flex items-start gap-4 -mt-4 mb-8 z-20">
                 <!-- Main Blue Lens -->
                 <div class="relative w-20 h-20 rounded-full bg-blue-500 border-[4px] border-white overflow-hidden shrink-0">
                     <div class="absolute top-1.5 left-2.5 w-4 h-4 bg-white rounded-full blur-[1px] z-10 opacity-80"></div>
@@ -60,12 +91,15 @@
 
 
             <!-- Screen Container (Bezel) -->
-            <div class="bg-[#dedede] px-8 pt-3 pb-2 rounded rounded-bl-[40px] border-4 border-[#89061c] shadow-[inset_0_0_15px_rgba(0,0,0,0.1)]">
+            <div class="bg-[#dedede] px-8 pt-3 pb-2 rounded rounded-bl-[40px] border-4 border-[#89061c] shadow-[inset_0_4px_10px_rgba(0,0,0,0.2),inset_0_-2px_4px_rgba(255,255,255,0.8)] relative">
                 
+                <!-- Bezel Internal Shadow (Physical depth) -->
+                <div class="absolute inset-x-0 top-0 h-2 bg-black/5 pointer-events-none rounded-t"></div>
+
                 <!-- Tiny Red Dots -->
                 <div class="flex justify-center gap-3 mb-3">
-                    <div class="w-2 h-2 bg-red-600 rounded-full"></div>
-                    <div class="w-2 h-2 bg-red-600 rounded-full"></div>
+                    <div class="w-2.5 h-2.5 bg-red-600 rounded-full shadow-[inset_0_1px_2px_rgba(0,0,0,0.5),0_1px_1px_rgba(255,255,255,0.3)]"></div>
+                    <div class="w-2.5 h-2.5 bg-red-600 rounded-full shadow-[inset_0_1px_2px_rgba(0,0,0,0.5),0_1px_1px_rgba(255,255,255,0.3)]"></div>
                 </div>
 
                 <!-- The Screen -->
@@ -285,32 +319,34 @@
                 </div>
 
                 <!-- RIGHT SECTION: D-Pad -->
-                <div class="relative w-[70px] h-[70px] shrink-0">
-                    <!-- Horizontal bar -->
-                    <div class="absolute top-[24px] left-[3px] w-[64px] h-[22px] bg-[#333] rounded border-b-[2px] border-black"></div>
-                    <!-- Vertical bar -->
-                    <div class="absolute top-[3px] left-[24px] w-[22px] h-[64px] bg-[#333] rounded border-b-[2px] border-black"></div>
+                <div class="relative w-[70px] h-[70px] shrink-0 filter drop-shadow-[0_3px_0_rgba(0,0,0,1)]">
+                    <!-- Vertical Bar -->
+                    <div class="absolute top-[3px] left-[24px] w-[22px] h-[64px] bg-[#333] rounded-md"></div>
+                    <!-- Horizontal Bar -->
+                    <div class="absolute top-[24px] left-[3px] w-[64px] h-[22px] bg-[#333] rounded-md"></div>
+                    <!-- Center Joint (Hides the intersection lines) -->
+                    <div class="absolute top-[24px] left-[24px] w-[22px] h-[22px] bg-[#333]"></div>
                     
                     <!-- Arrows -->
                     <!-- Up Arrow -->
-                    <svg class="absolute top-[8px] left-[30px] w-[10px] h-[10px] text-slate-400 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="absolute top-[8px] left-[30px] w-[10px] h-[10px] text-slate-400 opacity-60" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 4l10 17H2z"/>
                     </svg>
                     <!-- Down Arrow -->
-                    <svg class="absolute bottom-[8px] left-[30px] w-[10px] h-[10px] text-slate-400 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="absolute bottom-[8px] left-[30px] w-[10px] h-[10px] text-slate-400 opacity-60" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 20L2 3h20z"/>
                     </svg>
                     <!-- Left Arrow -->
-                    <svg class="absolute top-[30px] left-[8px] w-[10px] h-[10px] text-slate-400 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="absolute top-[30px] left-[8px] w-[10px] h-[10px] text-slate-400 opacity-60" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M4 12l17-10v20z"/>
                     </svg>
                     <!-- Right Arrow -->
-                    <svg class="absolute top-[30px] right-[8px] w-[10px] h-[10px] text-slate-400 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="absolute top-[30px] right-[8px] w-[10px] h-[10px] text-slate-400 opacity-60" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M20 12L3 2v20z"/>
                     </svg>
                     
                     <!-- Center dent -->
-                    <div class="absolute top-[31px] left-[31px] w-[8px] h-[8px] bg-slate-400 rounded-full opacity-50"></div>
+                    <div class="absolute top-[31px] left-[31px] w-[8px] h-[8px] bg-black/30 rounded-full"></div>
                 </div>
 
             </div>
@@ -1201,7 +1237,7 @@
         if (!els.revealName || !els.revealPokemon) return;
         
         // const label = isSuccess ? 'CORRECT!' : 'FAILED!';
-        const colorClass = isSuccess ? 'text-white' : 'text-red-500';
+        const colorClass = isSuccess ? 'text-white' : 'text-white';
         
         if (els.revealLabel) {
             els.revealLabel.className = `text-xs font-mono tracking-wider opacity-70 ${colorClass}`;

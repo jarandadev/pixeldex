@@ -2,11 +2,11 @@
 
 @layer base {
   :root {
-    --text-xs: 0.5rem; 
-    --text-sm: 0.75rem; 
-    --text-md: 1rem; 
-    --text-lg: 1.25rem; 
-    --text-xl: 1.5rem;
+    --text-xs: 8px; 
+    --text-sm: 12px; 
+    --text-md: 16px; 
+    --text-lg: 20px; 
+    --text-xl: 24px;
   }
 
 }
