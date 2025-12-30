@@ -16,6 +16,18 @@
                     <div class="absolute top-6 left-2 w-2 h-2 bg-white rounded-full blur-[1px] z-10 opacity-40"></div>
                     <div class="absolute top-[50%] left-[50%] w-10 h-10 bg-blue-400 rounded-full blur-[4px] -translate-x-1/2 -translate-y-1/2 opacity-30"></div>
                     <div class="absolute inset-0 shadow-[inset_-4px_-4px_18px_rgba(0,0,0,0.2)]"></div>
+                    
+                    <!-- Result Icons -->
+                    <div id="lens-check" class="absolute inset-0 flex items-center justify-center text-white opacity-0 transition-opacity duration-200 z-20 pointer-events-none drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <div id="lens-cross" class="absolute inset-0 flex items-center justify-center text-white opacity-0 transition-opacity duration-200 z-20 pointer-events-none drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </div>
                 </div>
 
                 <!-- Small LEDs -->
@@ -244,12 +256,12 @@
                     <div class="flex gap-2">
                         <!-- Skip Button (Red with counter) -->
                         <button id="skip-btn" class="flex-1 bg-red-500 h-12 rounded text-white font-mono text-sm font-bold border-b-[3px] border-red-900 active:border-0 active:translate-y-1 cursor-pointer transition-all flex items-center justify-center">
-                            <span id="skip-btn-text">SKIP (4)</span>
+                            <span id="skip-btn-text">SKIP (3)</span>
                         </button>
                         
                         <!-- Submit Button (Blue) -->
                         <button id="submit-btn" class="flex-1 bg-blue-500 h-12 rounded text-white font-mono text-sm font-bold border-b-[3px] border-blue-900 active:border-0 active:translate-y-1 cursor-pointer transition-all">
-                            SUBMIT
+                            GUESS
                         </button>
                     </div>
                     
@@ -508,7 +520,9 @@
         settingsGenList: document.getElementById('settings-gen-list'),
         indicatorShiny: document.getElementById('indicator-shiny-light'),
         indicatorSprites: document.getElementById('indicator-sprites-light'),
-        indicatorGens: document.getElementById('indicator-gens-light')
+        indicatorGens: document.getElementById('indicator-gens-light'),
+        lensCheck: document.getElementById('lens-check'),
+        lensCross: document.getElementById('lens-cross')
     };
 
     const ctx = els.canvas.getContext('2d');
@@ -758,11 +772,13 @@
         els.loading.classList.remove('hidden');
         if(els.revealName) els.revealName.classList.add('hidden');
         if(els.shinyIndicator) els.shinyIndicator.classList.add('hidden');
+        showLensIcon('none');
 
         // Card colors remain unchanged
         
         state.currentLevelIndex = 0;
         updateGuessesText();
+        updateLEDs();
 
         const randomId = getRandomPokemonId();
         const roundStartTime = Date.now();
@@ -857,7 +873,33 @@
     function updateGuessesText() {
         // Calcular cuántos niveles quedan DESPUÉS del actual
         const remaining = DIFFICULTY_LEVELS.length - state.currentLevelIndex - 1;
-        if(els.skipBtnText) els.skipBtnText.textContent = `SKIP (${remaining})`;
+        if(els.skipBtnText) {
+            els.skipBtnText.textContent = remaining > 0 ? `SKIP (${remaining})` : 'LOSE';
+        }
+        updateLEDs();
+    }
+
+    function updateLEDs() {
+        if (!els.indicatorSprites || !els.indicatorShiny || !els.indicatorGens) return;
+        
+        const level = state.currentLevelIndex; // 0 a 3
+        
+        // Se apagan conforme aumenta el nivel (0: todos ON, 1: Rojo OFF, 2: Amarillo OFF, 3: Verde OFF)
+        els.indicatorSprites.style.opacity = level >= 1 ? '0' : '1';
+        els.indicatorShiny.style.opacity = level >= 2 ? '0' : '1';
+        els.indicatorGens.style.opacity = level >= 3 ? '0' : '1';
+        
+        // Transición suave
+        els.indicatorSprites.style.transition = 'opacity 0.3s ease';
+        els.indicatorShiny.style.transition = 'opacity 0.3s ease';
+        els.indicatorGens.style.transition = 'opacity 0.3s ease';
+    }
+
+    function showLensIcon(type: 'check' | 'cross' | 'none') {
+        if (!els.lensCheck || !els.lensCross) return;
+        
+        els.lensCheck.style.opacity = type === 'check' ? '1' : '0';
+        els.lensCross.style.opacity = type === 'cross' ? '1' : '0';
     }
     function handleInput(e) {
         if (!state.isRoundActive) return;
@@ -979,8 +1021,13 @@
         if (normalizedGuess === normalizedName) {
             handleSuccess();
         } else {
-             handleSkip();
-             if (els.input) (els.input as HTMLInputElement).value = '';
+              handleSkip();
+              showLensIcon('cross');
+              setTimeout(() => {
+                  if (state.isRoundActive) showLensIcon('none');
+              }, 600);
+              
+              if (els.input) (els.input as HTMLInputElement).value = '';
              // Solo hacer focus en desktop
              if (!isMobile()) {
                  if (els.input) (els.input as HTMLInputElement).focus();
@@ -996,6 +1043,7 @@
             localStorage.setItem('pixelguess_record', state.record);
         }
         updateScoreboard();
+        showLensIcon('check');
         
         const startRes = DIFFICULTY_LEVELS[state.currentLevelIndex].resolution;
         animateReveal(startRes, 300, 500);
@@ -1044,6 +1092,8 @@
 
     function handleFailure() {
         state.isRoundActive = false;
+        updateLEDs();
+        showLensIcon('cross');
         const finalScore = state.streak;
         state.streak = 0;
         updateScoreboard();
